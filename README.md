@@ -7,5 +7,5 @@
  * Function: Skill calculations
  * Requirements: Latest version of Java
  * Version 7.2.0 Update: 09/2021 (MM/YYYY)
- * Note: Altar.rs web server got taken down by the clan owner Altar, and as a result, the applications are running locally
+ * <u>Note:</u> Altar.rs web server got taken down by the clan owner Altar, and as a result, the applications are running locally
  */
