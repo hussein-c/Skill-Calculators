@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>RS3 Construction Calculator</title>
+</head>
+<body>
+<h2 style="text-align: center;">
+	RS3 Construction Calculator
+</h2>
+
+<p>
+	<strong>Introduction</strong>
+</p>
+
+<p>
+	Welcome to my Construction Calculator for RS3. Here you can find out how many planks you need for a certain goal e.g. level 99, 200M XP. It has the ability of fetching your Construction Level and XP from the RS3 Hiscores. Down below this calculator is a Price Calculator which calculates how much money you need for the planks. It has the ability to fetch the planks price from the RS3 Grand Exchange. Best of luck with your Construction goals!
+</p>
+
+<p>
+	<u>Notes:</u>
+</p>
+
+<ul>
+	<li>
+		The Construction Level requirement is 1 for planks, 15 for oak planks, 35 for teak planks and 40 for mahogany planks.
+	</li>
+	<li>
+		You can choose to do either Current Level or Current XP, and either Level Goal or XP Goal.
+	</li>
+	<li>
+		Level 127 is 200M XP for this calculator.
+	</li>
+</ul>
+
+<p>
+	&nbsp;
+</p>
+
+<table>
+	<tbody>
+		<tr>
+			<td id="constructioncalculatorlabel">
+				Display Name:
+			</td>
+			<td id="constructioncalculatorinput">
+				<input id="username" maxlength="12" name="username" onkeypress="return isValidKey(event)" type="text">
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<button id="fetchdata" type="button">Fetch Construction Level/XP</button>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<table>
+	<tbody>
+		<tr>
+			<td id="constructioncalculatorlabel">
+				Current Level:
+			</td>
+			<td id="constructioncalculatorinput">
+				<input id="level" maxlength="3" name="level" onkeypress="return isNumberKey(event)" onkeyup="convertLevelToExp(level); calculateXPDifference()" type="text">
+			</td>
+		</tr>
+		<tr>
+			<td id="constructioncalculatorlabel">
+				Current XP:
+			</td>
+			<td id="constructioncalculatorinput">
+				<input class="input" id="xp" maxlength="11" name="xp" onkeypress="return isNumberKey2(event)" onkeyup="duplicateKey(); convertExpToLevel(xp); calculateXPDifference()" type="text">
+			</td>
+		</tr>
+		<tr>
+			<td id="constructioncalculatorlabel">
+				Bonus XP:
+			</td>
+			<td id="constructioncalculatorinput">
+				<input class="input" id="bxp" maxlength="11" name="bxp" onkeypress="return isNumberKey2(event)" onkeyup="duplicateKey(); calculateXPDifference()" type="text">
+			</td>
+		</tr>
+		<tr>
+			<td id="constructioncalculatorlabel">
+				Level Goal:
+			</td>
+			<td id="constructioncalculatorinput">
+				<input id="goal" maxlength="3" name="goal" onkeypress="return isNumberKey(event)" onkeyup="convertLevelToExpGoal(level); calculateXPDifference()" type="text">
+			</td>
+		</tr>
+		<tr>
+			<td id="constructioncalculatorlabel">
+				XP Goal:
+			</td>
+			<td id="constructioncalculatorinput">
+				<input class="input" id="xpgoal" maxlength="11" name="xpgoal" onkeypress="return isNumberKey2(event)" onkeyup="duplicateKey(); convertExpGoalToLevel(xpgoal); calculateXPDifference()" type="text">
+			</td>
+		</tr>
+		<tr>
+			<td id="constructioncalculatorlabel">
+				Avatar Bonus:
+			</td>
+			<td id="constructioncalculatorinput">
+				<select id="avatar" onchange="calculateXPDifference()" size="1"><option value="0">None</option><option value="3">3%</option><option value="4">4%</option><option value="5">5%</option><option value="6">6%</option> </select>
+			</td>
+		</tr>
+		<tr>
+			<td id="constructioncalculatorlabel">
+				Constructor&#39;s outfit (pieces):
+			</td>
+			<td id="constructioncalculatorinput">
+				<select id="constructoroutfit" onchange="calculateXPDifference()" size="1"><option value="0">None</option><option value="1">1 (1%)</option><option value="2">2 (2%)</option><option value="3">3 (3%)</option><option value="4">4 (4%)</option><option value="6">5 (6%)</option> </select>
+			</td>
+		</tr>
+		<tr>
+			<td id="constructioncalculatorlabel">
+				Sculpting chisel:
+			</td>
+			<td id="constructioncalculatorinput">
+				<select id="sculptingchisel" onchange="calculateXPDifference()" size="1"><option value="none">None</option><option value="1">1 (1%)</option> </select>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>
+	&nbsp;
+</p>
+
+<table>
+	<tbody>
+		<tr>
+			<td id="constructioncalculatorlabel">
+				XP Difference:&nbsp;
+			</td>
+			<td id="constructioncalculatorinput">
+				<input id="xpdifference" name="result" readonly="readonly" type="text">
+			</td>
+		</tr>
+		<tr>
+			<td align="center" id="constructioncalculatorlabel">
+				Total Planks:&nbsp; &nbsp;&nbsp;
+			</td>
+			<td id="constructioncalculatorinput">
+				<textarea id="planksresult" readonly="readonly"></textarea>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<button id="clearbutton" onclick="clearData()" type="button">CLEAR</button>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h2>
+	Price Calculator
+</h2>
+
+<p>
+	<u>Note:</u> The total cost always rounds down to the nearest whole number.
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<table>
+	<tbody>
+		<tr>
+			<td id="pricecalculatorinput">
+				<select id="planklist" onchange="fetchPrice()" size="1"><option disabled="disabled" selected="selected">-- Select a plank --</option><option>Plank</option><option>Oak plank</option><option>Teak plank</option><option>Mahogany plank</option> </select>&nbsp;&nbsp;
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>
+	&nbsp;
+</p>
+
+<table>
+	<tbody>
+		<tr>
+			<td id="pricecalculatorinput">
+				<input class="input" disabled="disabled" id="planksprice" maxlength="6" name="planksprice" onkeypress="return isNumberKey2(event)" onkeyup="calculateCost()" placeholder="Plank Price" type="text">
+			</td>
+			<td id="pricecalculatorinput">
+				&nbsp; <span style="font-size:16px;"><strong>X</strong></span>&nbsp;&nbsp;
+			</td>
+			<td id="pricecalculatorinput">
+				<input class="input" id="planksquantity" maxlength="9" name="planksquantity" onkeypress="return isNumberKey2(event)" onkeyup="duplicateKey(); calculateCost()" placeholder="Total Planks" type="text">
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>
+	&nbsp;
+</p>
+
+<table>
+	<tbody>
+		<tr>
+			<td id="constructioncalculatorlabel">
+				Total Cost:
+			</td>
+			<td id="constructioncalculatorinput">
+				<textarea id="totalcost" readonly="readonly"></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td id="constructioncalculatorlabel">
+				Price Per XP:
+			</td>
+			<td id="constructioncalculatorinput">
+				<textarea id="costxpresult" readonly="readonly"></textarea>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<button id="clearbutton2" onclick="clearData2()" type="button">CLEAR</button>
+</p>
+
+<p>
+	&nbsp;
+</p>
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script><script>
+var usernamefield = document.getElementById("username");
+var levelfield = document.getElementById("level");
+var xpfield = document.getElementById("xp");
+var bxpfield = document.getElementById("bxp");
+var goalfield = document.getElementById("goal");
+var xpgoalfield = document.getElementById("xpgoal");
+var xpdifferencefield = document.getElementById("xpdifference");
+var avatar_menu = document.getElementById("avatar");
+var constructor_outfit_menu = document.getElementById("constructoroutfit");
+var sculpting_chisel_menu = document.getElementById("sculptingchisel");
+var plankspricefield = document.getElementById("planksprice");
+var planksquantityfield = document.getElementById("planksquantity");
+var totalcostfield = document.getElementById("totalcost");
+var fetchdata = document.getElementById("fetchdata");
+var planks_menu = document.getElementById("planklist");
+var costxpresultfield = document.getElementById("costxpresult");
+var planksresultfield = document.getElementById("planksresult");
+
+var EXPERIENCE = [
+    0, 0, 83, 174, 276, 388, 512, 650, 801, 969, 1154, 1358, 1584, 1833, 2107, 2411, 2746, 3115, 3523, 3973, 4470, 5018, 5624, 6291, 7028, 7842, 8740, 9730, 10824, 12031, 13363, 14833, 16456, 18247, 20224, 22406, 24815, 27473, 30408, 33648, 37224, 41171, 45529, 50339, 55649, 61512, 67983, 75127, 83014, 91721, 101333, 111945, 123660, 136594, 150872, 166636, 184040, 203254, 224466, 247886, 273742, 302288, 333804, 368599, 407015, 449428, 496254, 547953, 605032, 668051, 737627, 814445, 899257, 992895, 1096278, 1210421, 1336443, 1475581, 1629200, 1798808, 1986068, 2192818, 2421087, 2673114, 2951373, 3258594, 3597792, 3972294, 4385776, 4842295, 5346332, 5902831, 6517253, 7195629, 7944614, 8771558, 9684577, 10692629, 11805606, 13034431, 14391160, 15889109, 17542976, 19368992, 21385073, 23611006, 26068632, 28782069, 31777943, 35085654, 38737661, 42769801, 47221641, 52136869, 57563718, 63555443, 70170840, 77474828, 85539082, 94442737, 104273167, 115126838, 127110260, 140341028, 154948977, 171077457, 188884740, 200000000
+];
+
+// only allow numbers when inputting levels
+
+function isNumberKey(evt) {
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}
+
+// only allow numbers and '.', 'k', 'K', 'm' and 'M' when inputting numbers
+
+function isNumberKey2(evt) {
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 75 && charCode != 77 && charCode != 107 && charCode != 109 && charCode != 46) {
+        return false;
+    }
+    return true;
+}
+
+// only allow letters, numbers, spaces and '-', '_', when inputting display name
+
+function isValidKey(evt) {
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57) && (charCode < 65 || charCode > 90) && (charCode < 97 || charCode > 122) && charCode != 32 && charCode != 45 && charCode != 95) {
+        return false;
+    }
+    return true;
+}
+
+function duplicateKey() {
+    var xpinput = xpfield.value.trim();
+    var bxpinput = bxpfield.value.trim();
+    var xpgoalinput = xpgoalfield.value.trim();
+    var planksquantityinput = planksquantityfield.value.trim();
+
+    if (xpinput.toLowerCase().includes("m") || xpinput.toLowerCase().includes("k")) {
+        xpfield.value = xpinput.replace(/\m.*/, "m").replace(/\M.*/, "M").replace(/\k.*/, "k").replace(/\K.*/, "K");
+    }
+
+	if (bxpinput.toLowerCase().includes("m") || bxpinput.toLowerCase().includes("k")) {
+		bxpfield.value = bxpinput.replace(/\m.*/, "m").replace(/\M.*/, "M").replace(/\k.*/, "k").replace(/\K.*/, "K");
+	}
+
+    if (xpgoalinput.toLowerCase().includes("m") || xpgoalinput.toLowerCase().includes("k")) {
+        xpgoalfield.value = xpgoalinput.replace(/\m.*/, "m").replace(/\M.*/, "M").replace(/\k.*/, "k").replace(/\K.*/, "K");
+    }
+
+    if (planksquantityinput.toLowerCase().includes("m") || planksquantityinput.toLowerCase().includes("k")) {
+        planksquantityfield.value = planksquantityinput.replace(/\m.*/, "m").replace(/\M.*/, "M").replace(/\k.*/, "k").replace(/\K.*/, "K");
+    }
+}
+
+// adds commas when number values are outputted in results
+
+function formatNumber(num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+}
+
+// disallow 'k', 'K', 'm', 'K' from being the first character on input
+
+xpfield.oninput = function() {
+    if (/^[kKmM]/.test(this.value)) {
+        this.value = this.value.replace(/^[kKmM]/, "")
+    }
+};
+
+bxpfield.oninput = function() {
+	if (/^[kKmM]/.test(this.value)) {
+		this.value = this.value.replace(/^[kKmM]/, "")
+	}
+};
+
+xpgoalfield.oninput = function() {
+    if (/^[kKmM]/.test(this.value)) {
+        this.value = this.value.replace(/^[kKmM]/, "")
+    }
+};
+
+plankspricefield.oninput = function() {
+    if (/^[kKmM]/.test(this.value)) {
+        this.value = this.value.replace(/^[kKmM]/, "")
+    }
+};
+
+planksquantityfield.oninput = function() {
+    if (/^[kKmM]/.test(this.value)) {
+        this.value = this.value.replace(/^[kKmM]/, "")
+    }
+};
+
+// add commas when inputting number values
+
+$(".input").on("input", function(event) {
+    var $this = $(this);
+    var num = $this.val().replace(/,/gi, "");
+    $this.val(num.replace(/\d(?=(?:\d{3})+$)/g, "$&,"));
+});
+
+$("#xp").keypress(function(e) {
+    var charCode = (e.which) ? e.which : event.keyCode
+    var xpfieldchar = xpfield.value;
+
+    if (xpfieldchar.toLowerCase().includes("m") || xpfieldchar.toLowerCase().includes("k")) {
+        if (charCode == 75 || charCode == 77 || charCode == 107 || charCode == 109) {
+            return false;
+        } else if (charCode >= 48 || charCode <= 57) {
+            return true;
+        }
+    }
+});
+
+$("#bxp").keypress(function(e) {
+	var charCode = (e.which) ? e.which : event.keyCode
+	var bxpfieldchar = bxpfield.value;
+
+	if (bxpfieldchar.toLowerCase().includes("m") || bxpfieldchar.toLowerCase().includes("k")) {
+		if (charCode == 75 || charCode == 77 || charCode == 107 || charCode == 109) {
+			return false;
+		} else if (charCode >= 48 || charCode <= 57) {
+			return true;
+		}
+	}
+});
+
+$("#xpgoal").keypress(function(e) {
+    var charCode = (e.which) ? e.which : event.keyCode
+    var xpgoalfieldchar = xpgoalfield.value;
+
+    if (xpgoalfieldchar.toLowerCase().includes("m") || xpgoalfieldchar.toLowerCase().includes("k")) {
+        if (charCode == 75 || charCode == 77 || charCode == 107 || charCode == 109) {
+            return false;
+        } else if (charCode >= 48 || charCode <= 57) {
+            return true;
+        }
+    }
+});
+
+$("#planksquantity").keypress(function(e) {
+    var charCode = (e.which) ? e.which : event.keyCode
+    var planksquantityfieldchar = planksquantityfield.value;
+
+    if (planksquantityfieldchar.toLowerCase().includes("m") || planksquantityfieldchar.toLowerCase().includes("k")) {
+        if (charCode == 75 || charCode == 77 || charCode == 107 || charCode == 109) {
+            return false;
+        } else if (charCode >= 48 || charCode <= 57) {
+            return true;
+        }
+    }
+});
+
+function fetchdatatext() {
+    if (fetchdata.innerHTML == "Fetch Construction Level/XP") {
+        fetchdata.disabled = true;
+        fetchdata.innerHTML = "Fetching...";
+    } else {
+        fetchdata.disabled = false;
+        fetchdata.innerHTML = "Fetch Construction Level/XP";
+    }
+}
+
+$("#fetchdata").click(function() {
+    fetchdatatext();
+    $.ajax({
+        url: "https://api.codetabs.com/v1/proxy?quest=https://secure.runescape.com/m=hiscore/index_lite.ws?player=" + usernamefield.value.trim()
+    })
+      .done(function(data) {
+            var levels = data.split("\n")[23].split(",")[1];
+            var xp = data.split("\n")[23].split(",")[2];
+            if (parseInt(levels) >= 1 && parseInt(xp) >= 0) {
+                //level
+                levelfield.value = levels;
+                //xp
+                xpfield.value = formatNumber(xp);
+                convertExpToLevel(xp);
+                //button text change and xp difference calculation
+                fetchdatatext();
+                calculateXPDifference();
+            } else {
+                alert("Their Construction Level/XP does not appear to be on the RS3 Highscores.");
+                levelfield.value = "";
+                xpfield.value = "";
+                fetchdatatext();
+            }
+       })
+      .fail(function(jqXHR) {
+            if (usernamefield.value.trim() == "") {
+                alert("Please enter a Display Name.");
+                levelfield.value = "";
+                xpfield.value = "";
+                fetchdatatext();
+            } else if (jqXHR.status === 0) {
+                alert("Failed to connect. Verify that you have internet access and then try again.");
+                levelfield.value = "";
+                xpfield.value = "";
+                fetchdatatext();
+            } else if (jqXHR.status == 400) {
+                alert("The server was unable to process your request. Please try again.");
+                levelfield.value = "";
+                xpfield.value = "";
+                fetchdatatext();
+            } else if (jqXHR.status == 404) {
+                alert("Their Construction Level/XP does not appear to be on the RS3 Highscores.");
+                levelfield.value = "";
+                xpfield.value = "";
+                fetchdatatext();
+            } else if (jqXHR.status == 500) {
+                alert("Internal Server Error [500]. Please try again later.");
+                levelfield.value = "";
+                xpfield.value = "";
+                fetchdatatext();
+            } else {
+                alert("Uncaught Error. " + jqXHR.responseText);
+                levelfield.value = "";
+                xpfield.value = "";
+                fetchdatatext();
+            }
+      });
+});
+
+function calculateXPDifference() {
+    xpdifferencefield.value = "";
+    planksresultfield.value = "";
+    if (isNaN(getExpInput(false)) || isNaN(getExpGoal(false))) {
+        return xpdifferencefield.value = "";
+    } else {
+        doMath_Exp_Exp();
+    }
+}
+
+function doMath_Exp_Exp() {
+    var current_exp = getExpInput(true);
+    var bonus_exp = getBxpInput(true);
+    var goal_exp = getExpGoal(true);
+    doMath(current_exp, bonus_exp, goal_exp);
+}
+
+function getLevelInput(flag) {
+    if (flag == false) {
+        return parseInt(levelfield.value.trim());
+    }
+    return 0;
+}
+
+function getExpInput(flag) {
+    if (flag == false) {
+        return parseInt(xpfield.value.trim());
+    } else {
+        var exp_input = xpfield.value.trim().replace(/,/g, "");
+
+        if (exp_input.toLowerCase().includes("m") && exp_input.includes(".")) {
+            exp_input = parseFloat(exp_input) * 1000000;
+        } else if (exp_input.toLowerCase().includes("m")) {
+            exp_input = parseInt(exp_input) * 1000000;
+        } else if (exp_input.toLowerCase().includes("k") && exp_input.includes(".")) {
+            exp_input = parseFloat(exp_input) * 1000;
+        } else if (exp_input.toLowerCase().includes("k")) {
+            exp_input = parseInt(exp_input) * 1000;
+        } else {
+            exp_input = parseInt(exp_input);
+        }
+        if (exp_input >= 0 && exp_input <= 200000000) {
+            return exp_input;
+        }
+        return 0;
+    }
+}
+
+function getBxpInput(flag) {
+	if (flag == false) {
+		return parseInt(bxpfield.value.trim());
+	} else {
+		var bxp_input = bxpfield.value.trim().replace(/,/g, "");
+		if (bxp_input.toLowerCase().includes("m") && bxp_input.includes(".")) {
+			bxp_input = parseFloat(bxp_input) * 1000000;
+		} else if (bxp_input.toLowerCase().includes("m")) {
+			bxp_input = parseInt(bxp_input) * 1000000;
+		} else if (bxp_input.toLowerCase().includes("k") && bxp_input.includes(".")) {
+			bxp_input = parseFloat(bxp_input) * 1000;
+		} else if (bxp_input.toLowerCase().includes("k")) {
+			bxp_input = parseInt(bxp_input) * 1000;
+		} else {
+			bxp_input = parseInt(bxp_input);
+		}
+		if (bxp_input >= 0 && bxp_input <= 200000000) {
+			return bxp_input;
+		}
+		return 0;
+	}
+}
+
+function getLevelGoal(flag) {
+    if (flag == false) {
+        return parseInt(goalfield.value.trim());
+    }
+    return 0;
+}
+
+function getExpGoal(flag) {
+    if (flag == false) {
+        return parseInt(xpgoalfield.value.trim());
+    } else {
+        var exp_goal = xpgoalfield.value.trim().replace(/,/g, "");
+
+        if (exp_goal.toLowerCase().includes("m") && exp_goal.includes(".")) {
+            exp_goal = parseFloat(exp_goal) * 1000000;
+        } else if (exp_goal.toLowerCase().includes("m")) {
+            exp_goal = parseInt(exp_goal) * 1000000;
+        } else if (exp_goal.toLowerCase().includes("k") && exp_goal.includes(".")) {
+            exp_goal = parseFloat(exp_goal) * 1000;
+        } else if (exp_goal.toLowerCase().includes("k")) {
+            exp_goal = parseInt(exp_goal) * 1000;
+        } else { 
+            exp_goal = parseInt(exp_goal);
+        }
+
+        if (exp_goal >= 0 && exp_goal <= 200000000) {
+            return exp_goal;
+        }
+        return 0;
+    }
+
+}
+
+function convertLevelToExp(level) {
+
+    level = parseInt(levelfield.value.trim());
+
+    if (level >= 1 && level <= 127) {
+        return xpfield.value = formatNumber(EXPERIENCE[level]);
+    } else {
+        return xpfield.value = "";
+    }
+}
+
+
+function convertLevelToExpGoal(levelgoal) {
+
+    levelgoal = parseInt(goalfield.value.trim());
+
+    if (levelgoal >= 1 && levelgoal <= 127) {
+        return xpgoalfield.value = formatNumber(EXPERIENCE[levelgoal]);
+    } else {
+        return xpgoalfield.value = "";
+    }
+}
+
+function convertExpToLevel(xp) {
+
+    xp = xpfield.value.trim().replace(/,/g, "");
+
+    if (xp.toLowerCase().includes("m") && xp.includes(".")) {
+        xp = parseFloat(xp) * 1000000;
+    } else if (xp.toLowerCase().includes("m")) {
+        xp = parseInt(xp) * 1000000;
+    } else if (xp.toLowerCase().includes("k") && xp.includes(".")) {
+        xp = parseFloat(xp) * 1000;
+    } else if (xp.toLowerCase().includes("k")) {
+        xp = parseInt(xp) * 1000;
+    } else {
+        xp = parseInt(xp);
+    }
+
+    if (xp >= 0 && xp <= 200000000) {
+        for (var i = 1; i < EXPERIENCE.length; i++) {
+            if (xp == EXPERIENCE[i]) {
+                return levelfield.value = i;
+            } else if (xp < EXPERIENCE[i]) {
+                return levelfield.value = i - 1;
+            }
+        }
+    } else {
+        return levelfield.value = "";
+    }
+}
+
+function convertExpGoalToLevel(xpgoal) {
+
+    xpgoal = xpgoalfield.value.trim().replace(/,/g, "");
+
+    if (xpgoal.toLowerCase().includes("m") && xpgoal.includes(".")) {
+        xpgoal = parseFloat(xpgoal) * 1000000;
+    } else if (xpgoal.toLowerCase().includes("m")) {
+        xpgoal = parseInt(xpgoal) * 1000000;
+    } else if (xpgoal.toLowerCase().includes("k") && xpgoal.includes(".")) {
+        xpgoal = parseFloat(xpgoal) * 1000;
+    } else if (xpgoal.toLowerCase().includes("k")) {
+        xpgoal = parseInt(xpgoal) * 1000;
+    } else {
+        xpgoal = parseInt(xpgoal);
+    }
+
+    if (xpgoal >= 0 && xpgoal <= 200000000) {
+        for (var i = 1; i < EXPERIENCE.length; i++) {
+            if (xpgoal == EXPERIENCE[i]) {
+                return goalfield.value = i;
+            } else if (xpgoal < EXPERIENCE[i]) {
+                return goalfield.value = i - 1;
+            }
+        }
+    } else {
+        return goalfield.value = "";
+    }
+}
+
+function doMath(from_exp, bonus_exp, to_exp) {
+    var PLANKSEXPERIENCE = [
+        29, 60, 90, 140
+    ];
+    var PLANKSNAME = [
+        "Planks: ", "Oak planks: ", "Teak planks: ", "Mahogany planks: "
+    ];
+	var avatar_boost = avatar_menu.options[avatar_menu.selectedIndex].value;
+	var constructor_outfit_boost = constructor_outfit_menu.options[constructor_outfit_menu.selectedIndex].value;
+	var sculpting_chisel_boost = sculpting_chisel_menu.options[sculpting_chisel_menu.selectedIndex].value;
+    var method = 1;
+	var percentageFloat;
+    var planks_needed = [];
+
+	if (bonus_exp < to_exp - from_exp) {
+		var exp_diff = (to_exp - from_exp) - bonus_exp;
+	} else {
+        var exp_diff = Math.ceil((to_exp - from_exp) / 2);
+	}
+
+    if (exp_diff < 0) {
+        xpdifferencefield.value = "";
+    } else {
+        xpdifferencefield.value = formatNumber(exp_diff);
+        
+        if (avatar_boost != "0" && constructor_outfit_boost != "0" && sculpting_chisel_boost != "none") {
+            percentageFloat = parseFloat(1 + (avatar_boost / 100) + (constructor_outfit_boost / 100) + (sculpting_chisel_boost / 100));
+			method = parseFloat(method * percentageFloat);
+        }
+        else if (avatar_boost != "0" && sculpting_chisel_boost != "none") {
+			percentageFloat = parseFloat(1 + (avatar_boost / 100) + (sculpting_chisel_boost / 100));
+			method = parseFloat(method * percentageFloat);
+
+			if (constructor_outfit_boost == "0") {
+				method = method;
+			} else if (constructor_outfit_boost == "1") {
+				method = parseFloat(method * 1.01);
+			} else if (constructor_outfit_boost == "2") {
+				method = parseFloat(method * 1.02);
+			} else if (constructor_outfit_boost == "3") {
+				method = parseFloat(method * 1.03);
+			} else if (constructor_outfit_boost == "4") {
+				method = parseFloat(method * 1.04);
+			} else if (constructor_outfit_boost == "6") {
+				method = parseFloat(method * 1.06);
+			}       
+        }
+        else if (avatar_boost != "0" && constructor_outfit_boost != "0") {
+			percentageFloat = parseFloat(1 + (avatar_boost / 100) + (constructor_outfit_boost / 100));
+			method = parseFloat(method * percentageFloat);
+
+			if (sculpting_chisel_boost == "none") {
+				method = method;
+			} else if (sculpting_chisel_boost == "1") {
+				method = parseFloat(method * 1.01);
+			}
+        }
+		else if (constructor_outfit_boost != "0" && sculpting_chisel_boost != "none") {
+			percentageFloat = parseFloat(1 + (constructor_outfit_boost / 100) + (sculpting_chisel_boost / 100));
+			method = parseFloat(method * percentageFloat);
+
+			if (avatar_boost == "0") {
+				method = method;
+			} else if (avatar_boost == "3") {
+				method = parseFloat(method * 1.03);
+			} else if (avatar_boost == "4") {
+				method = parseFloat(method * 1.04);
+			} else if (avatar_boost == "5") {
+				method = parseFloat(method * 1.05);
+			} else if (avatar_boost == "6") {
+				method = parseFloat(method * 1.06);
+			}
+		}
+        else {
+			if (avatar_boost == "0") {
+				method = method;
+			} else if (avatar_boost == "3") {
+				method = parseFloat(method * 1.03);
+			} else if (avatar_boost == "4") {
+				method = parseFloat(method * 1.04);
+			} else if (avatar_boost == "5") {
+				method = parseFloat(method * 1.05);
+			} else if (avatar_boost == "6") {
+				method = parseFloat(method * 1.06);
+			}
+
+			if (constructor_outfit_boost == "0") {
+				method = method;
+			} else if (constructor_outfit_boost == "1") {
+				method = parseFloat(method * 1.01);
+			} else if (constructor_outfit_boost == "2") {
+				method = parseFloat(method * 1.02);
+			} else if (constructor_outfit_boost == "3") {
+				method = parseFloat(method * 1.03);
+			} else if (constructor_outfit_boost == "4") {
+				method = parseFloat(method * 1.04);
+			} else if (constructor_outfit_boost == "6") {
+				method = parseFloat(method * 1.06);
+			}
+
+			if (sculpting_chisel_boost == "none") {
+				method = method;
+			} else if (sculpting_chisel_boost == "1") {
+				method = parseFloat(method * 1.01);
+			}
+		}
+
+        for (var i = 0; i < PLANKSNAME.length; i++) {
+            planks_needed[i] = exp_diff / parseFloat(method * PLANKSEXPERIENCE[i]);
+        }
+
+        for (var j = 0; j < PLANKSNAME.length; j++) {
+
+            if (j == PLANKSNAME.length - 1) {
+                planksresultfield.value += PLANKSNAME[j] + formatNumber(Math.ceil(planks_needed[j]));
+            } else {
+                planksresultfield.value += PLANKSNAME[j] + formatNumber(Math.ceil(planks_needed[j])) + "\n";
+            }
+        }
+    }
+}
+
+function calculateCost() {
+
+    var planksprice = plankspricefield.value.trim().replace(/,/g, "");
+    var planksquantity = planksquantityfield.value.trim().replace(/,/g, "");
+
+    if (planksprice.toLowerCase().includes("m")) {
+        planksprice = parseInt(planksprice) * 1000000;
+    } else if (planksprice.toLowerCase().includes("k")) {
+        planksprice = parseInt(planksprice) * 1000;
+    }
+
+    if (planksquantity.toLowerCase().includes("m")) {
+        planksquantity = parseInt(planksquantity) * 1000000;
+    } else if (planksquantity.toLowerCase().includes("k")) {
+        planksquantity = parseInt(planksquantity) * 1000;
+    }
+
+    var answer = parseInt(planksprice) * parseInt(planksquantity);
+
+    if (isNaN(answer)) {
+        totalcostfield.value = "";
+    } else {
+        totalcostfield.value = formatNumber(answer) + " coins";
+    }
+}
+
+function clearData() {
+    usernamefield.value = "";
+    levelfield.value = "";
+    xpfield.value = "";
+    bxpfield.value = "";
+    goalfield.value = "";
+    xpgoalfield.value = "";
+    xpdifferencefield.value = "";
+    planksresultfield.value = "";
+}
+
+function clearData2() {
+    planks_menu.selectedIndex = 0;
+    plankspricefield.value = "";
+    planksquantityfield.value = "";
+    totalcostfield.value = "";
+    costxpresultfield.value = "";
+}
+
+class Plank {
+    constructor(name, xp, id) {
+        this.name = name;
+        this.xp = xp;
+        this.id = id;
+    }
+    url() {
+        return "https://api.codetabs.com/v1/proxy?quest=https://services.runescape.com/m=itemdb_rs/api/graph/" + this.id + ".json";
+    }
+}
+
+var plank = new Plank("Plank", 29, 960);
+var oakPlank = new Plank("Oak plank", 60, 8778);
+var teakPlank = new Plank("Teak plank", 90, 8780);
+var mahoganyPlank = new Plank("Mahogany plank", 140, 8782);
+
+var planks = [plank, oakPlank, teakPlank, mahoganyPlank];
+
+function fetchPrice() {
+    plankspricefield.value = "Fetching...";
+    $.getJSON(planks[planks_menu.selectedIndex - 1].url(), function() {})
+        .done(function(data) {
+            var currentPrice = JSON.stringify(data.daily);
+            currentPrice = currentPrice.split(",").reverse().join(",").split(":")[1].replace(/\},"\d+"/, "");
+            currentPrice = parseInt(currentPrice);
+            plankspricefield.value = formatNumber(currentPrice);
+            costPerXP();
+            calculateCost();
+        })
+        .fail(function() {
+            alert("The " + planks[planks_menu.selectedIndex - 1].name + " price is updating on the RS3 G.E.");
+            plankspricefield.value = "";
+        });
+}
+
+function costPerXP() {
+    costxpresultfield.value = "";
+    var planksprice = parseInt(plankspricefield.value.trim().replace(/,/g, ""));
+    var planksxp = planks[planks_menu.selectedIndex - 1].xp;
+
+    for (var i = 0; i < 1; i++) {
+        var currentRatio = Math.round(planksprice / (planksxp) * 100) / 100;
+        costxpresultfield.value += currentRatio + " coins/xp";
+    }
+}
+</script>
+<style type="text/css">
+#fetchdata {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: blue;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px #999;
+}
+
+#fetchdata:hover {
+    background-color: #4c4cff;
+}
+
+#fetchdata:active {
+    background-color: #4c4cff;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+#clearbutton,
+#clearbutton2 {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: green;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px #999;
+}
+
+#clearbutton:hover,
+#clearbutton2:hover {
+    background-color: #3e8e41;
+}
+
+#clearbutton:active,
+#clearbutton2:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+#pricecalculatorinput {
+    border-top: hidden;
+    border-right: hidden;
+    border-bottom: hidden;
+    border-left: hidden;
+}
+
+#constructioncalculatorlabel {
+    width: 180px;
+}
+
+#constructioncalculatorinput {
+    border-top: hidden;
+    border-right: hidden;
+    border-bottom: hidden;
+}
+
+#planksresult{
+height: 90px;
+width: 200px;
+resize: none;
+}
+
+#username,
+#avatar,
+#constructoroutfit,
+#sculptingchisel {
+    width: 200px;
+}
+
+#planksprice {
+    width: 179px;
+}
+#planksquantity {
+    width: 154px;
+}
+
+#totalcost {
+    height: 40px;
+    width: 200px;
+    resize: none;
+}
+
+
+#costxpresult {
+    width: 200px;
+    height: 40px;
+    resize: none;
+}
+
+#container {
+    overflow: auto;
+}
+
+#planklist {
+    width: 173.71px;
+}
+
+td {
+    border: 1px solid #787878;
+}</style>

@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>RS3 Prayer Calculator</title>
+</head>
+<body>
+<h2 style="text-align: center;">
+	RS3 Prayer Calculator
+</h2>
+
+<p>
+	<strong>Introduction</strong>
+</p>
+
+<p>
+	Welcome to my Prayer Calculator for RS3. Here you can find out how many bones you need for a certain goal e.g. level 99, 200M XP. It has the ability of fetching your Prayer Level and XP from the RS3 Hiscores. Down below this calculator is a Price Calculator which calculates how much money you need for the bones. It has the ability to fetch the bones price from the RS3 Grand Exchange. Best of luck with your Prayer goals!
+</p>
+
+<p>
+	<u>Notes:</u>
+</p>
+
+<ul>
+	<li>
+		You can choose to do either Current Level or Current XP, and either Level Goal or XP Goal. Bonus XP is also an option.
+	</li>
+	<li>
+		The Gilded Altar alone gives 250% Bonus XP. Each incense burner provides an additional 50% Bonus XP. Overall, it's 350% Bonus XP.
+	</li>
+	<li>
+		Level 127 is 200M XP for this calculator.
+	</li>
+</ul>
+
+<p>
+	&nbsp;
+</p>
+
+<table>
+	<tbody>
+		<tr>
+			<td id="prayercalculatorlabel">
+				Display Name:
+			</td>
+			<td id="prayercalculatorinput">
+				<input id="username" maxlength="12" name="username" onkeypress="return isValidKey(event)" type="text">
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<button id="fetchdata" type="button">Fetch Prayer Level/XP</button>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<table>
+	<tbody>
+		<tr>
+			<td id="prayercalculatorlabel">
+				Current Level:
+			</td>
+			<td id="prayercalculatorinput">
+				<input id="level" maxlength="3" name="level" onkeypress="return isNumberKey(event)" onkeyup="convertLevelToExp(level); calculateXPDifference()" type="text">
+			</td>
+		</tr>
+		<tr>
+			<td id="prayercalculatorlabel">
+				Current XP:
+			</td>
+			<td id="prayercalculatorinput">
+				<input class="input" id="xp" maxlength="11" name="xp" onkeypress="return isNumberKey2(event)" onkeyup="duplicateKey(); convertExpToLevel(xp); calculateXPDifference()" type="text">
+			</td>
+		</tr>
+		<tr>
+			<td id="prayercalculatorlabel">
+				Bonus XP:
+			</td>
+			<td id="prayercalculatorinput">
+				<input class="input" id="bxp" maxlength="11" name="bxp" onkeypress="return isNumberKey2(event)" onkeyup="duplicateKey(); calculateXPDifference()" type="text">
+			</td>
+		</tr>
+		<tr>
+			<td id="prayercalculatorlabel">
+				Level Goal:
+			</td>
+			<td id="prayercalculatorinput">
+				<input id="goal" maxlength="3" name="goal" onkeypress="return isNumberKey(event)" onkeyup="convertLevelToExpGoal(level); calculateXPDifference()" type="text">
+			</td>
+		</tr>
+		<tr>
+			<td id="prayercalculatorlabel">
+				XP Goal:
+			</td>
+			<td id="prayercalculatorinput">
+				<input class="input" id="xpgoal" maxlength="11" name="xpgoal" onkeypress="return isNumberKey2(event)" onkeyup="duplicateKey(); convertExpGoalToLevel(xpgoal); calculateXPDifference()" type="text">
+			</td>
+		</tr>
+		<tr>
+			<td id="prayercalculatorlabel">
+				Avatar Bonus:
+			</td>
+			<td id="prayercalculatorinput">
+				<select id="avatar" onchange="calculateXPDifference()" size="1"><option value="0">None</option><option value="3">3%</option><option value="4">4%</option><option value="5">5%</option><option value="6">6%</option> </select>
+			</td>
+		</tr>
+		<tr>
+			<td id="prayercalculatorlabel">
+				First age outfit (pieces):
+			</td>
+			<td id="prayercalculatorinput">
+				<select id="firstage" onchange="calculateXPDifference()" size="1"><option value="0">None</option><option value="1">1 (1%)</option><option value="2">2 (2%)</option><option value="3">3 (3%)</option><option value="4">4 (4%)</option><option value="6">5 (6%)</option> </select>
+			</td>
+		</tr>
+		<tr>
+			<td id="prayercalculatorlabel">
+				Potion:
+			</td>
+			<td id="prayercalculatorinput">
+				<select id="potion" onchange="calculateXPDifference()" size="1"><option value="none">None</option><option value="yes">Perfect juju (5%)</option> </select>
+			</td>
+		</tr>
+		<tr>
+			<td id="prayercalculatorlabel">
+				Active Aura:
+			</td>
+			<td id="prayercalculatorinput">
+				<select id="aura" onchange="calculateXPDifference()" size="1"><option value="none">None</option><option value="basic">Basic (1%)</option><option value="greater">Greater (1.5%)</option><option value="master">Master (2%)</option><option value="supreme">Supreme (2.5%)</option> </select>
+			</td>
+		</tr>
+		<tr>
+			<td id="prayercalculatorlabel">
+				Prayer Method:
+			</td>
+			<td id="prayercalculatorinput">
+				<select id="methods" onchange="calculateXPDifference()" size="1"><option value="gildedaltar">Gilded Altar (x3.5)</option><option value="chaosaltar">Chaos Altar (x3.5)</option><option value="ectofuntus">Ectofuntus (x4.0)</option> </select>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>
+	&nbsp;
+</p>
+
+<table>
+	<tbody>
+		<tr>
+			<td id="prayercalculatorlabel">
+				XP Difference:
+			</td>
+			<td id="prayercalculatorinput">
+				<input id="xpdifference" name="xpdifference" readonly="readonly" type="text">
+			</td>
+		</tr>
+		<tr>
+			<td align="center" id="prayercalculatorlabel">
+				Total Bones:
+			</td>
+			<td id="prayercalculatorinput">
+				<textarea id="bonesresult" readonly="readonly"></textarea>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<button id="clearbutton" onclick="clearData()" type="button">CLEAR</button>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<h2>
+	Price Calculator
+</h2>
+
+<p>
+	<u>Note:</u> The total cost always rounds down to the nearest whole number.
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<table>
+	<tbody>
+		<tr>
+			<td id="pricecalculatorinput">
+				<select id="boneslist" onchange="fetchPrice()" size="1"><option disabled="disabled" selected="selected">-- Select a bone --</option><option>Big bones</option><option>Babydragon bones</option><option>Infernal ashes</option><option>Dragon bones</option><option>Tortured ashes</option><option>Dagannoth bones</option><option>Airut bones</option><option>Hardened dragon bones</option><option>Dinosaur bones</option><option>Frost dragon bones</option><option>Reinforced dragon bones</option><option>Searing ashes</option> </select>&nbsp;&nbsp;
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>
+	&nbsp;
+</p>
+
+<table>
+	<tbody>
+		<tr>
+			<td id="pricecalculatorinput">
+				<input class="input" disabled="disabled" id="bonesprice" maxlength="6" name="bonesprice" onkeypress="return isNumberKey2(event)" onkeyup="calculateCost()" placeholder="Bones Price" type="text">
+			</td>
+			<td id="pricecalculatorinput">
+				&nbsp; <span style="font-size:16px;"><strong>X</strong></span>&nbsp;&nbsp;
+			</td>
+			<td id="pricecalculatorinput">
+				<input class="input" id="bonesquantity" maxlength="9" name="bonesquantity" onkeypress="return isNumberKey2(event)" onkeyup="duplicateKey(); calculateCost()" placeholder="Total Bones" type="text">
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>
+	&nbsp;
+</p>
+
+<table>
+	<tbody>
+		<tr>
+			<td id="prayercalculatorlabel">
+				Total Cost:
+			</td>
+			<td id="prayercalculatorinput">
+				<textarea id="totalcost" readonly="readonly"></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td id="prayercalculatorlabel">
+				Price Per XP:
+			</td>
+			<td id="prayercalculatorinput">
+				<textarea id="costxpresult" readonly="readonly"></textarea>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<button id="clearbutton2" onclick="clearData2()" type="button">CLEAR</button>
+</p>
+
+<p>
+	&nbsp;
+</p>
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script><script>
+var usernamefield = document.getElementById("username");
+var levelfield = document.getElementById("level");
+var xpfield = document.getElementById("xp");
+var bxpfield = document.getElementById("bxp");
+var goalfield = document.getElementById("goal");
+var xpgoalfield = document.getElementById("xpgoal");
+var xpdifferencefield = document.getElementById("xpdifference");
+var methods_menu = document.getElementById("methods");
+var avatar_menu = document.getElementById("avatar");
+var first_age_menu = document.getElementById("firstage");
+var potion_menu = document.getElementById("potion");
+var aura_menu = document.getElementById("aura");
+var bonesresultfield = document.getElementById("bonesresult");
+var bonespricefield = document.getElementById("bonesprice");
+var bonesquantityfield = document.getElementById("bonesquantity");
+var totalcostfield = document.getElementById("totalcost");
+var fetchdata = document.getElementById("fetchdata");
+var totalbonesdescription = document.getElementById("totalbonesdescription");
+var bones_menu = document.getElementById("boneslist");
+var costxpresultfield = document.getElementById("costxpresult");
+
+var EXPERIENCE = [
+	0, 0, 83, 174, 276, 388, 512, 650, 801, 969, 1154, 1358, 1584, 1833, 2107, 2411, 2746, 3115, 3523, 3973, 4470, 5018, 5624, 6291, 7028, 7842, 8740, 9730, 10824, 12031, 13363, 14833, 16456, 18247, 20224, 22406, 24815, 27473, 30408, 33648, 37224, 41171, 45529, 50339, 55649, 61512, 67983, 75127, 83014, 91721, 101333, 111945, 123660, 136594, 150872, 166636, 184040, 203254, 224466, 247886, 273742, 302288, 333804, 368599, 407015, 449428, 496254, 547953, 605032, 668051, 737627, 814445, 899257, 992895, 1096278, 1210421, 1336443, 1475581, 1629200, 1798808, 1986068, 2192818, 2421087, 2673114, 2951373, 3258594, 3597792, 3972294, 4385776, 4842295, 5346332, 5902831, 6517253, 7195629, 7944614, 8771558, 9684577, 10692629, 11805606, 13034431, 14391160, 15889109, 17542976, 19368992, 21385073, 23611006, 26068632, 28782069, 31777943, 35085654, 38737661, 42769801, 47221641, 52136869, 57563718, 63555443, 70170840, 77474828, 85539082, 94442737, 104273167, 115126838, 127110260, 140341028, 154948977, 171077457, 188884740, 200000000
+];
+
+// only allow numbers when inputting levels
+
+function isNumberKey(evt) {
+	var charCode = (evt.which) ? evt.which : event.keyCode
+	if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+		return false;
+	}
+	return true;
+}
+
+// only allow numbers and '.', 'k', 'K', 'm' and 'M' when inputting numbers
+
+function isNumberKey2(evt) {
+	var charCode = (evt.which) ? evt.which : event.keyCode
+	if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 75 && charCode != 77 && charCode != 107 && charCode != 109 && charCode != 46) {
+		return false;
+	}
+	return true;
+}
+
+// only allow letters, numbers, spaces and '-', '_', when inputting display name
+
+function isValidKey(evt) {
+	var charCode = (evt.which) ? evt.which : event.keyCode
+	if (charCode > 31 && (charCode < 48 || charCode > 57) && (charCode < 65 || charCode > 90) && (charCode < 97 || charCode > 122) && charCode != 32 && charCode != 45 && charCode != 95) {
+		return false;
+	}
+	return true;
+}
+
+function duplicateKey() {
+	var xpinput = xpfield.value.trim();
+    var bxpinput = bxpfield.value.trim();
+	var xpgoalinput = xpgoalfield.value.trim();
+	var bonesquantityinput = bonesquantityfield.value.trim();
+
+	if (xpinput.toLowerCase().includes("m") || xpinput.toLowerCase().includes("k")) {
+		xpfield.value = xpinput.replace(/\m.*/, "m").replace(/\M.*/, "M").replace(/\k.*/, "k").replace(/\K.*/, "K");
+	}
+
+	if (bxpinput.toLowerCase().includes("m") || bxpinput.toLowerCase().includes("k")) {
+		bxpfield.value = bxpinput.replace(/\m.*/, "m").replace(/\M.*/, "M").replace(/\k.*/, "k").replace(/\K.*/, "K");
+	}
+
+	if (xpgoalinput.toLowerCase().includes("m") || xpgoalinput.toLowerCase().includes("k")) {
+		xpgoalfield.value = xpgoalinput.replace(/\m.*/, "m").replace(/\M.*/, "M").replace(/\k.*/, "k").replace(/\K.*/, "K");
+	}
+
+	if (bonesquantityinput.toLowerCase().includes("m") || bonesquantityinput.toLowerCase().includes("k")) {
+		bonesquantityfield.value = bonesquantityinput.replace(/\m.*/, "m").replace(/\M.*/, "M").replace(/\k.*/, "k").replace(/\K.*/, "K");
+	}
+}
+
+// adds commas when number values are outputted in results
+
+function formatNumber(num) {
+	return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+}
+
+// disallow 'k', 'K', 'm', 'K' from being the first character on input
+
+xpfield.oninput = function() {
+	if (/^[kKmM]/.test(this.value)) {
+		this.value = this.value.replace(/^[kKmM]/, "")
+	}
+};
+
+bxpfield.oninput = function() {
+	if (/^[kKmM]/.test(this.value)) {
+		this.value = this.value.replace(/^[kKmM]/, "")
+	}
+};
+
+xpgoalfield.oninput = function() {
+	if (/^[kKmM]/.test(this.value)) {
+		this.value = this.value.replace(/^[kKmM]/, "")
+	}
+};
+
+bonespricefield.oninput = function() {
+	if (/^[kKmM]/.test(this.value)) {
+		this.value = this.value.replace(/^[kKmM]/, "")
+	}
+};
+
+bonesquantityfield.oninput = function() {
+	if (/^[kKmM]/.test(this.value)) {
+		this.value = this.value.replace(/^[kKmM]/, "")
+	}
+};
+
+// add commas when inputting number values
+
+$(".input").on("input", function(event) {
+	var $this = $(this);
+	var num = $this.val().replace(/,/gi, "");
+	$this.val(num.replace(/\d(?=(?:\d{3})+$)/g, "$&,"));
+});
+
+$("#xp").keypress(function(e) {
+	var charCode = (e.which) ? e.which : event.keyCode
+	var xpfieldchar = xpfield.value;
+
+	if (xpfieldchar.toLowerCase().includes("m") || xpfieldchar.toLowerCase().includes("k")) {
+		if (charCode == 75 || charCode == 77 || charCode == 107 || charCode == 109) {
+			return false;
+		} else if (charCode >= 48 || charCode <= 57) {
+			return true;
+		}
+	}
+});
+
+
+$("#bxp").keypress(function(e) {
+	var charCode = (e.which) ? e.which : event.keyCode
+	var bxpfieldchar = bxpfield.value;
+
+	if (bxpfieldchar.toLowerCase().includes("m") || bxpfieldchar.toLowerCase().includes("k")) {
+		if (charCode == 75 || charCode == 77 || charCode == 107 || charCode == 109) {
+			return false;
+		} else if (charCode >= 48 || charCode <= 57) {
+			return true;
+		}
+	}
+});
+
+$("#xpgoal").keypress(function(e) {
+	var charCode = (e.which) ? e.which : event.keyCode
+	var xpgoalfieldchar = xpgoalfield.value;
+
+	if (xpgoalfieldchar.toLowerCase().includes("m") || xpgoalfieldchar.toLowerCase().includes("k")) {
+		if (charCode == 75 || charCode == 77 || charCode == 107 || charCode == 109) {
+			return false;
+		} else if (charCode >= 48 || charCode <= 57) {
+			return true;
+		}
+	}
+});
+
+$("#bonesquantity").keypress(function(e) {
+	var charCode = (e.which) ? e.which : event.keyCode
+	var bonesquantityfieldchar = bonesquantityfield.value;
+
+	if (bonesquantityfieldchar.toLowerCase().includes("m") || bonesquantityfieldchar.toLowerCase().includes("k")) {
+		if (charCode == 75 || charCode == 77 || charCode == 107 || charCode == 109) {
+			return false;
+		} else if (charCode >= 48 || charCode <= 57) {
+			return true;
+		}
+	}
+});
+
+function fetchdatatext() {
+	if (fetchdata.innerHTML == "Fetch Prayer Level/XP") {
+		fetchdata.disabled = true;
+		fetchdata.innerHTML = "Fetching...";
+	} else {
+		fetchdata.disabled = false;
+		fetchdata.innerHTML = "Fetch Prayer Level/XP";
+	}
+}
+
+$("#fetchdata").click(function() {
+	fetchdatatext();
+	$.ajax({
+			url: "https://api.codetabs.com/v1/proxy?quest=https://secure.runescape.com/m=hiscore/index_lite.ws?player=" + usernamefield.value.trim()
+		})
+		.done(function(data) {
+			var levels = data.split("\n")[6].split(",")[1];
+			var xp = data.split("\n")[6].split(",")[2];
+			if (parseInt(levels) >= 1 && parseInt(xp) >= 0) {
+				//level
+				levelfield.value = levels;
+				//xp
+				xpfield.value = formatNumber(xp);
+				convertExpToLevel(xp);
+				//button text change and xp difference calculation
+				fetchdatatext();
+				calculateXPDifference();
+			} else {
+				alert("Their Prayer Level/XP does not appear to be on the RS3 Highscores.");
+				levelfield.value = "";
+				xpfield.value = "";
+				fetchdatatext();
+			}
+
+		})
+		.fail(function(jqXHR) {
+			if (usernamefield.value.trim() == "") {
+				alert("Please enter a Display Name.");
+				levelfield.value = "";
+				xpfield.value = "";
+				fetchdatatext();
+			} else if (jqXHR.status === 0) {
+				alert("Failed to connect. Verify that you have internet access and then try again.");
+				levelfield.value = "";
+				xpfield.value = "";
+				fetchdatatext();
+			} else if (jqXHR.status == 400) {
+				alert("The server was unable to process your request. Please try again.");
+				levelfield.value = "";
+				xpfield.value = "";
+				fetchdatatext();
+			} else if (jqXHR.status == 404) {
+				alert("Their Prayer Level/XP does not appear to be on the RS3 Highscores.");
+				levelfield.value = "";
+				xpfield.value = "";
+				fetchdatatext();
+			} else if (jqXHR.status == 500) {
+				alert("Internal Server Error [500]. Please try again later.");
+				levelfield.value = "";
+				xpfield.value = "";
+				fetchdatatext();
+			} else {
+				alert("Uncaught Error. " + jqXHR.responseText);
+				levelfield.value = "";
+				xpfield.value = "";
+				fetchdatatext();
+			}
+		});
+});
+
+function calculateXPDifference() {
+	xpdifferencefield.value = "";
+	bonesresultfield.value = "";
+	if (isNaN(getExpInput(false)) || isNaN(getExpGoal(false))) {
+		return xpdifferencefield.value = "";
+	} else {
+		doMath_Exp_Exp();
+	}
+}
+
+function doMath_Exp_Exp() {
+	var current_exp = getExpInput(true);
+    var bonus_exp = getBxpInput(true);
+	var goal_exp = getExpGoal(true);
+	doMath(current_exp, bonus_exp, goal_exp);
+}
+
+function getLevelInput(flag) {
+	if (flag == false) {
+		return parseInt(levelfield.value.trim());
+	}
+	return 0;
+}
+
+function getExpInput(flag) {
+	if (flag == false) {
+		return parseInt(xpfield.value.trim());
+	} else {
+		var exp_input = xpfield.value.trim().replace(/,/g, "");
+		if (exp_input.toLowerCase().includes("m") && exp_input.includes(".")) {
+			exp_input = parseFloat(exp_input) * 1000000;
+		} else if (exp_input.toLowerCase().includes("m")) {
+			exp_input = parseInt(exp_input) * 1000000;
+		} else if (exp_input.toLowerCase().includes("k") && exp_input.includes(".")) {
+			exp_input = parseFloat(exp_input) * 1000;
+		} else if (exp_input.toLowerCase().includes("k")) {
+			exp_input = parseInt(exp_input) * 1000;
+		} else {
+			exp_input = parseInt(exp_input);
+		}
+		if (exp_input >= 0 && exp_input <= 200000000) {
+			return exp_input;
+		}
+		return 0;
+	}
+}
+
+function getBxpInput(flag) {
+	if (flag == false) {
+		return parseInt(bxpfield.value.trim());
+	} else {
+		var bxp_input = bxpfield.value.trim().replace(/,/g, "");
+		if (bxp_input.toLowerCase().includes("m") && bxp_input.includes(".")) {
+			bxp_input = parseFloat(bxp_input) * 1000000;
+		} else if (bxp_input.toLowerCase().includes("m")) {
+			bxp_input = parseInt(bxp_input) * 1000000;
+		} else if (bxp_input.toLowerCase().includes("k") && bxp_input.includes(".")) {
+			bxp_input = parseFloat(bxp_input) * 1000;
+		} else if (bxp_input.toLowerCase().includes("k")) {
+			bxp_input = parseInt(bxp_input) * 1000;
+		} else {
+			bxp_input = parseInt(bxp_input);
+		}
+		if (bxp_input >= 0 && bxp_input <= 200000000) {
+			return bxp_input;
+		}
+		return 0;
+	}
+}
+
+function getLevelGoal(flag) {
+	if (flag == false) {
+		return parseInt(goalfield.value.trim());
+	}
+	return 0;
+}
+
+function getExpGoal(flag) {
+	if (flag == false) {
+		return parseInt(xpgoalfield.value.trim());
+	} else {
+		var exp_goal = xpgoalfield.value.trim().replace(/,/g, "");
+		if (exp_goal.toLowerCase().includes("m") && exp_goal.includes(".")) {
+			exp_goal = parseFloat(exp_goal) * 1000000;
+		} else if (exp_goal.toLowerCase().includes("m")) {
+			exp_goal = parseInt(exp_goal) * 1000000;
+		} else if (exp_goal.toLowerCase().includes("k") && exp_goal.includes(".")) {
+			exp_goal = parseFloat(exp_goal) * 1000;
+		} else if (exp_goal.toLowerCase().includes("k")) {
+			exp_goal = parseInt(exp_goal) * 1000;
+		} else {
+			exp_goal = parseInt(exp_goal);
+		}
+		if (exp_goal >= 0 && exp_goal <= 200000000) {
+			return exp_goal;
+		}
+		return 0;
+	}
+
+}
+
+function convertLevelToExp(level) {
+
+	level = parseInt(levelfield.value.trim());
+
+	if (level >= 1 && level <= 127) {
+		return xpfield.value = formatNumber(EXPERIENCE[level]);
+	} else {
+		return xpfield.value = "";
+	}
+}
+
+function convertLevelToExpGoal(levelgoal) {
+
+	levelgoal = parseInt(goalfield.value.trim());
+
+	if (levelgoal >= 1 && levelgoal <= 127) {
+		return xpgoalfield.value = formatNumber(EXPERIENCE[levelgoal]);
+	} else {
+		return xpgoalfield.value = "";
+	}
+}
+
+function convertExpToLevel(xp) {
+
+	xp = xpfield.value.trim().replace(/,/g, "");
+
+	if (xp.toLowerCase().includes("m") && xp.includes(".")) {
+		xp = parseFloat(xp) * 1000000;
+	} else if (xp.toLowerCase().includes("m")) {
+		xp = parseInt(xp) * 1000000;
+	} else if (xp.toLowerCase().includes("k") && xp.includes(".")) {
+		xp = parseFloat(xp) * 1000;
+	} else if (xp.toLowerCase().includes("k")) {
+		xp = parseInt(xp) * 1000;
+	} else {
+		xp = parseInt(xp);
+	}
+
+	if (xp >= 0 && xp <= 200000000) {
+		for (var i = 1; i < EXPERIENCE.length; i++) {
+			if (xp == EXPERIENCE[i]) {
+				return levelfield.value = i;
+			} else if (xp < EXPERIENCE[i]) {
+				return levelfield.value = i - 1;
+			}
+		}
+	} else {
+		return levelfield.value = "";
+	}
+}
+
+function convertExpGoalToLevel(xpgoal) {
+
+	xpgoal = xpgoalfield.value.trim().replace(/,/g, "");
+
+	if (xpgoal.toLowerCase().includes("m") && xpgoal.includes(".")) {
+		xpgoal = parseFloat(xpgoal) * 1000000;
+	} else if (xpgoal.toLowerCase().includes("m")) {
+		xpgoal = parseInt(xpgoal) * 1000000;
+	} else if (xpgoal.toLowerCase().includes("k") && xpgoal.includes(".")) {
+		xpgoal = parseFloat(xpgoal) * 1000;
+	} else if (xpgoal.toLowerCase().includes("k")) {
+		xpgoal = parseInt(xpgoal) * 1000;
+	} else {
+		xpgoal = parseInt(xpgoal);
+	}
+
+	if (xpgoal >= 0 && xpgoal <= 200000000) {
+		for (var i = 1; i < EXPERIENCE.length; i++) {
+			if (xpgoal == EXPERIENCE[i]) {
+				return goalfield.value = i;
+			} else if (xpgoal < EXPERIENCE[i]) {
+				return goalfield.value = i - 1;
+			}
+		}
+	} else {
+		return goalfield.value = "";
+	}
+}
+
+function doMath(from_exp, bonus_exp, to_exp) {
+	var BONESEXPERIENCE = [
+		15, 30, 62.5, 72, 90, 125, 132.5, 144, 170, 180, 190, 200
+	];
+	var BONESNAME = [
+		"Big bones: ", "Babydragon bones: ", "Infernal ashes: ", "Dragon bones: ", "Tortured ashes: ", "Dagannoth bones: ", "Airut bones: ", "Hardened dragon bones: ", "Dinosaur bones: ", "Frost dragon bones: ", "Reinforced dragon bones: ", "Searing ashes: "
+	];
+	var methods_type = methods_menu.options[methods_menu.selectedIndex].value;
+	var avatar_boost = avatar_menu.options[avatar_menu.selectedIndex].value;
+	var first_age_boost = first_age_menu.options[first_age_menu.selectedIndex].value;
+	var potion_boost = potion_menu.options[potion_menu.selectedIndex].value;
+	var aura_boost = aura_menu.options[aura_menu.selectedIndex].value;
+	var method = 1;
+	var percentageFloat;
+	var bones_needed = [];
+    var currentXP = from_exp;
+    var goalXP = to_exp
+
+	if (bonus_exp < to_exp - from_exp && (methods_type == "gildedaltar" || methods_type == "chaosaltar")) {
+		var exp_diff = (to_exp - from_exp) - bonus_exp;
+	} else if (methods_type == "ectofuntus") {
+		var exp_diff = to_exp - from_exp;
+	} else {
+        var exp_diff = Math.ceil((to_exp - from_exp) / 2);
+	}
+
+	if (exp_diff < 0) {
+		xpdifferencefield.value = "";
+	} else {
+		xpdifferencefield.value = formatNumber(exp_diff);
+
+		if (methods_type == "gildedaltar" || methods_type == "chaosaltar") {
+			method = parseFloat(method * 3.5);
+		} else {
+			method = parseFloat(method * 4.0);
+		}
+
+		if (avatar_boost != "0" && first_age_boost != "0") {
+			percentageFloat = parseFloat(1 + (avatar_boost / 100) + (first_age_boost / 100));
+			method = parseFloat(method * percentageFloat);
+
+
+			if (potion_boost == "none") {
+				method = method;
+			} else if (potion_boost == "yes") {
+				method = parseFloat(method * 1.05);
+			}
+
+			if (aura_boost == "none") {
+				method = method;
+			} else if (aura_boost == "basic") {
+				method = parseFloat(method * 1.01);
+			} else if (aura_boost == "greater") {
+				method = parseFloat(method * 1.015);
+			} else if (aura_boost == "master") {
+				method = parseFloat(method * 1.02);
+			} else if (aura_boost == "supreme") {
+				method = parseFloat(method * 1.025);
+			}
+		} else {
+			if (avatar_boost == "0") {
+				method = method;
+			} else if (avatar_boost == "3") {
+				method = parseFloat(method * 1.03);
+			} else if (avatar_boost == "4") {
+				method = parseFloat(method * 1.04);
+			} else if (avatar_boost == "5") {
+				method = parseFloat(method * 1.05);
+			} else if (avatar_boost == "6") {
+				method = parseFloat(method * 1.06);
+			}
+
+			if (first_age_boost == "0") {
+				method = method;
+			} else if (first_age_boost == "1") {
+				method = parseFloat(method * 1.01);
+			} else if (first_age_boost == "2") {
+				method = parseFloat(method * 1.02);
+			} else if (first_age_boost == "3") {
+				method = parseFloat(method * 1.03);
+			} else if (first_age_boost == "4") {
+				method = parseFloat(method * 1.04);
+			} else if (first_age_boost == "6") {
+				method = parseFloat(method * 1.06);
+			}
+
+			if (potion_boost == "none") {
+				method = method;
+			} else if (potion_boost == "yes") {
+				method = parseFloat(method * 1.05);
+			}
+
+			if (aura_boost == "none") {
+				method = method;
+			} else if (aura_boost == "basic") {
+				method = parseFloat(method * 1.01);
+			} else if (aura_boost == "greater") {
+				method = parseFloat(method * 1.015);
+			} else if (aura_boost == "master") {
+				method = parseFloat(method * 1.02);
+			} else if (aura_boost == "supreme") {
+				method = parseFloat(method * 1.025);
+			}
+		}
+
+		for (var i = 0; i < BONESNAME.length; i++) {
+			bones_needed[i] = exp_diff / parseFloat(method * BONESEXPERIENCE[i]);
+			if (i == BONESNAME.length - 1) {
+				bonesresultfield.value += BONESNAME[i] + formatNumber(Math.ceil(bones_needed[i]));
+			} else {
+				bonesresultfield.value += BONESNAME[i] + formatNumber(Math.ceil(bones_needed[i])) + "\n";
+			}
+		}
+	}
+}
+
+function calculateCost() {
+
+	var bonesprice = bonespricefield.value.trim().replace(/,/g, "");
+	var bonesquantity = bonesquantityfield.value.trim().replace(/,/g, "");
+
+	if (bonesprice.toLowerCase().includes("m")) {
+		bonesprice = parseInt(bonesprice) * 1000000;
+	} else if (bonesprice.toLowerCase().includes("k")) {
+		bonesprice = parseInt(bonesprice) * 1000;
+	}
+
+	if (bonesquantity.toLowerCase().includes("m")) {
+		bonesquantity = parseInt(bonesquantity) * 1000000;
+	} else if (bonesquantity.toLowerCase().includes("k")) {
+		bonesquantity = parseInt(bonesquantity) * 1000;
+	}
+
+	var answer = parseInt(bonesprice) * parseInt(bonesquantity);
+
+	if (isNaN(answer)) {
+		totalcostfield.value = "";
+	} else {
+		totalcostfield.value = formatNumber(answer) + " coins";
+	}
+}
+
+function clearData() {
+	usernamefield.value = "";
+	levelfield.value = "";
+	xpfield.value = "";
+    bxpfield.value = "";
+	goalfield.value = "";
+	xpgoalfield.value = "";
+	xpdifferencefield.value = "";
+	bonesresultfield.value = "";
+}
+
+function clearData2() {
+	bones_menu.selectedIndex = 0;
+	bonespricefield.value = "";
+	bonesquantityfield.value = "";
+	totalcostfield.value = "";
+	costxpresultfield.value = "";
+}
+
+class Bones {
+	constructor(name, xp, id) {
+		this.name = name;
+		this.xp = xp;
+		this.id = id;
+	}
+	url() {
+        return "https://api.codetabs.com/v1/proxy?quest=https://services.runescape.com/m=itemdb_rs/api/graph/" + this.id + ".json";
+	}
+}
+
+var bigBones = new Bones("Big bones", 15, 532);
+var babyDragonBones = new Bones("Babydragon bones", 30, 534);
+var infernalAshes = new Bones("Infernal ashes", 62.5, 20268);
+var dragonBones = new Bones("Dragon bones", 72, 536);
+var torturedAshes = new Bones("Tortured ashes", 90, 33260);
+var dagannothBones = new Bones("Dagannoth bones", 125, 6729);
+var airutBones = new Bones("Airut bones", 132.5, 30209);
+var hardenedDragonBones = new Bones("Hardened dragon bones", 144, 35008);
+var dinosaurBones = new Bones("Dinosaur bones", 170, 48075);
+var frostDragonBones = new Bones("Frost dragon bones", 180, 18832);
+var reinforcedDragonBones = new Bones("Reinforced dragon bones", 190, 35010);
+var searingAshes = new Bones("Searing ashes", 200, 34159);
+
+var bones = [
+	bigBones, babyDragonBones, infernalAshes, dragonBones, torturedAshes, dagannothBones,
+	airutBones, hardenedDragonBones, dinosaurBones, frostDragonBones, reinforcedDragonBones, searingAshes
+];
+
+function fetchPrice() {
+	bonespricefield.value = "Fetching...";
+	$.getJSON(bones[bones_menu.selectedIndex - 1].url(), function() {})
+		.done(function(data) {
+			var currentPrice = JSON.stringify(data.daily);
+			currentPrice = currentPrice.split(",").reverse().join(",").split(":")[1].replace(/\},"\d+"/, "");
+			currentPrice = parseInt(currentPrice);
+			bonespricefield.value = formatNumber(currentPrice);
+			costPerXP();
+			calculateCost();
+		})
+		.fail(function() {
+			alert("The " + bones[bones_menu.selectedIndex - 1].name + " price is updating on the RS3 G.E.");
+			bonespricefield.value = "";
+		});
+}
+
+function costPerXP() {
+	costxpresultfield.value = "";
+	var METHODNAME = [
+		"Gilded Altar: ", "Chaos Altar: ", "Ectofuntus: "
+	];
+	var METHODMULTIPLIER = [
+		3.5, 3.5, 4.0
+	];
+	var bonesprice = parseInt(bonespricefield.value.trim().replace(/,/g, ""));
+	var bonesxp = bones[bones_menu.selectedIndex - 1].xp;
+
+	for (var i = 0; i < METHODNAME.length; i++) {
+		var currentRatio = Math.round((bonesprice / (bonesxp * METHODMULTIPLIER[i])) * 100) / 100;
+		if (i == METHODNAME.length - 1) {
+			costxpresultfield.value += METHODNAME[i] + currentRatio + " coins/xp";
+		} else {
+			costxpresultfield.value += METHODNAME[i] + currentRatio + " coins/xp" + "\n";
+		}
+	}
+}
+</script>
+<style type="text/css">
+#fetchdata {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: blue;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px #999;
+}
+
+#fetchdata:hover {
+    background-color: #4c4cff;
+}
+
+#fetchdata:active {
+    background-color: #4c4cff;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+#clearbutton,
+#clearbutton2 {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: green;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px #999;
+}
+
+#clearbutton:hover,
+#clearbutton2:hover {
+    background-color: #3e8e41;
+}
+
+#clearbutton:active,
+#clearbutton2:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+#pricecalculatorinput {
+    border-top: hidden;
+    border-right: hidden;
+    border-bottom: hidden;
+    border-left: hidden;
+}
+
+#prayercalculatorlabel {
+    width: 147px;
+}
+
+#prayercalculatorinput {
+    border-top: hidden;
+    border-right: hidden;
+    border-bottom: hidden;
+
+}
+
+#bonesresult {
+    height: 230px;
+    width: 240px;
+    resize: none;
+}
+
+#username, 
+#methods,
+#avatar,
+#firstage,
+#potion,
+#aura {
+    width: 240px;
+}
+#bonesprice {
+    width: 146px;
+}
+#bonesquantity {
+    width: 174px;
+}
+
+#totalcost {
+    height: 40px;
+    width: 200px;
+    resize: none;
+}
+
+#costxpresult {
+    width: 200px;
+    height: 70px;
+    resize: none;
+}
+
+#container {
+    overflow: auto;
+}
+
+#boneslist {
+    width: 210px;
+}
+
+td {
+    border: 1px solid #787878;
+}</style>

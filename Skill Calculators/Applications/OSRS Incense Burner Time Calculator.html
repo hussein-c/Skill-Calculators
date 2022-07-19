@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>OSRS Incense Burner Time Calculator</title>
+</head>
+<body>
+<h2 style="text-align:center">
+	OSRS Incense Burner Time Calculator
+</h2>
+
+<p>
+	<strong>Introduction</strong>
+</p>
+
+<p>
+	Welcome to my Incense Burner Time Calculator for OSRS. Here you can find out how long your incense burners will stay lit based on your Firemaking level. It has the ability of fetching your Firemaking Level from the OSRS Hiscores.
+</p>
+
+<p>
+	<u>Notes:</u>
+</p>
+
+<ul>
+	<li>
+		Lighting an incense burner requires Level 30 Firemaking.
+	</li>
+	<li>
+		Boosting your Firemaking Level has <strong>NO</strong> effect on the incense burner time length.
+	</li>
+</ul>
+
+<p>
+	&nbsp;
+</p>
+
+<table>
+	<tbody>
+		<tr>
+			<td id="burnercalculatorlabel">
+				Display Name:
+			</td>
+			<td id="burnercalculatorinput">
+				<input id="username" maxlength="12" name="username" onkeypress="return isValidKey(event)" type="text">
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<button id="fetchdata" type="button">Fetch Firemaking Level</button>
+</p>
+
+<p>
+	&nbsp;
+</p>
+
+<table>
+	<tbody>
+		<tr>
+			<td id="burnercalculatorlabel">
+				Current Level:
+			</td>
+			<td id="burnercalculatorinput">
+				<input id="level" maxlength="2" name="level" onkeypress="return isNumberKey(event)" onkeyup="calculateTime()" type="text">
+			</td>
+		</tr>
+		<tr>
+		</tr>
+	</tbody>
+</table>
+
+<table>
+	<tbody>
+		<tr>
+			<td id="burnercalculatorlabel">
+				Ticks:
+			</td>
+			<td id="burnercalculatorinput">
+				<textarea id="ticks" readonly="readonly"></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td id="burnercalculatorlabel">
+				Time Length:
+			</td>
+			<td id="burnercalculatorinput">
+				<textarea id="time" readonly="readonly"></textarea>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>
+	&nbsp;
+</p>
+
+<p>
+	<button id="clearbutton" onclick="clearData()" type="button">CLEAR</button>
+</p>
+
+<p>
+	&nbsp;
+</p>
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script><script>
+var usernamefield = document.getElementById("username");
+var levelfield = document.getElementById("level");
+var ticksfield = document.getElementById("ticks");
+var timefield = document.getElementById("time");
+var fetchdata = document.getElementById("fetchdata");
+
+// only allow numbers when inputting levels
+
+function isNumberKey(evt) {
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}
+
+
+function isValidKey(evt) {
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57) && (charCode < 65 || charCode > 90) && (charCode < 97 || charCode > 122) && charCode != 32 && charCode != 45 && charCode != 95) {
+        return false;
+    }
+    return true;
+}
+
+
+function calculateTime() {
+    level = parseInt(levelfield.value.trim());
+    if (level >= 30 && level <= 99) {
+        var firemakingLevel = parseInt(levelfield.value.trim());
+        var minTicks = 200 + firemakingLevel;
+        var maxTicks = minTicks + (firemakingLevel - 1);
+        var seconds = 60;
+        var minTimeinMins = parseInt(minTicks * 0.6 / seconds);
+        var minTimeinSecs = parseInt(minTicks * 0.6) % parseInt(seconds);
+        var maxTimeinMins = parseInt(maxTicks * 0.6 / seconds);
+        var maxTimeinSecs = parseInt(maxTicks * 0.6) % parseInt(seconds);
+        var minTime = minTimeinMins + " minutes " + minTimeinSecs + " seconds";
+        var maxTime = maxTimeinMins + " minutes " + maxTimeinSecs + " seconds";
+        if (isNaN(firemakingLevel)) {
+            ticksfield.value = "";
+            timefield.value = "";
+        }
+        else {
+            ticksfield.value = minTicks + "-" + maxTicks + " ticks";
+            timefield.value = minTime + " - " + maxTime;
+        }
+    }
+    else {
+        ticksfield.value = "";
+        timefield.value = "";
+    }
+}
+
+function clearData() {
+    usernamefield.value = "";
+    levelfield.value = "";
+    ticksfield.value = "";
+    timefield.value = "";
+}
+
+function fetchdatatext() {
+    if (fetchdata.innerHTML == "Fetch Firemaking Level") {
+        fetchdata.disabled = true;
+        fetchdata.innerHTML = "Fetching...";
+    } else {
+        fetchdata.disabled = false;
+        fetchdata.innerHTML = "Fetch Firemaking Level";
+    }
+}
+
+$("#fetchdata").click(function() {
+    fetchdatatext();
+    $.ajax({
+        type: "GET",
+        crossDomain: true,
+        url: "https://api.codetabs.com/v1/proxy/?quest=https://secure.runescape.com/m=hiscore_oldschool/index_lite.ws?player=" + usernamefield.value.trim()
+    })
+      .done(function(data) {
+            var levels = data.split("\n")[12].split(",")[1];
+            if (parseInt(levels) >= 1) {
+                //level
+                levelfield.value = levels;
+                //button text change and time calculation
+                fetchdatatext();
+                calculateTime();
+            } else {
+                alert("Their Firemaking Level does not appear to be on the OSRS Highscores.");
+                levelfield.value = "";
+                fetchdatatext();
+            }
+      })
+      .fail(function(jqXHR) {
+            if (usernamefield.value.trim() == "") {
+                alert("Please enter a Display Name.");
+                levelfield.value = "";
+                fetchdatatext();
+            } else if (jqXHR.status === 0) {
+                alert("Failed to connect. Verify that you have internet access and then try again.");
+                levelfield.value = "";
+                fetchdatatext();
+            } else if (jqXHR.status == 400) {
+                alert("The server was unable to process your request. Please try again.");
+                levelfield.value = "";
+                fetchdatatext();
+            } else if (jqXHR.status == 404) {
+                alert("Their Firemaking Level does not appear to be on the OSRS Highscores.");
+                levelfield.value = "";
+                fetchdatatext();
+            } else if (jqXHR.status == 500) {
+                alert("Internal Server Error [500]. Please try again later.");
+                levelfield.value = "";
+                fetchdatatext();
+            } else {
+                alert("Uncaught Error. " + jqXHR.responseText);
+                levelfield.value = "";
+                fetchdatatext();
+            }
+      });
+});
+</script>
+<style type="text/css">
+#fetchdata {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: blue;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px #999;
+}
+
+#fetchdata:hover {
+    background-color: #4c4cff;
+}
+
+#fetchdata:active {
+    background-color: #4c4cff;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+#clearbutton {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: green;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px #999;
+}
+
+#clearbutton:hover {
+    background-color: #3e8e41;
+}
+
+#clearbutton:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+#burnercalculatorlabel {
+    width: 147px;
+}
+
+#burnercalculatorinput {
+    border-top: hidden;
+    border-right: hidden;
+    border-bottom: hidden;
+}
+
+#time {
+    height: 40px;
+    width: 310px;
+    resize: none;
+}
+
+#username,
+#level {
+    width: 310px;
+}
+
+#planksprice {
+    width: 147px;
+}
+#planksquantity {
+    width: 152px;
+}
+
+#ticks {
+    height: 40px;
+    width: 310px;
+    resize: none;
+}
+
+#container {
+    overflow: auto;
+}
+
+#planklist {
+    width: 173.71px;
+}
+
+td {
+    border: 1px solid #787878;
+}</style>
