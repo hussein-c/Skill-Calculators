@@ -38,14 +38,15 @@
 <p>
 	&nbsp;
 </p>
-
+      <div class="float-container">
+         <div class="float-child">
 <table>
 	<tbody>
 		<tr>
-			<td id="constructioncalculatorlabel">
+			<td class="constructioncalculatorlabel">
 				Display Name:
 			</td>
-			<td id="constructioncalculatorinput">
+			<td class="constructioncalculatorinput">
 				<input id="username" maxlength="12" name="username" onkeypress="return isValidKey(event)" type="text">
 			</td>
 		</tr>
@@ -57,7 +58,7 @@
 </p>
 
 <p>
-	<button id="fetchdata" type="button">Fetch Construction Level/XP</button>
+	<button id="fetchdata" type="button">Lookup</button>
 </p>
 
 <p>
@@ -67,34 +68,34 @@
 <table>
 	<tbody>
 		<tr>
-			<td id="constructioncalculatorlabel">
+			<td class="constructioncalculatorlabel">
 				Current Level:
 			</td>
-			<td id="constructioncalculatorinput">
+			<td class="constructioncalculatorinput">
 				<input id="level" maxlength="3" name="level" onkeypress="return isNumberKey(event)" onkeyup="convertLevelToExp(level); calculateXPDifference()" type="text">
 			</td>
 		</tr>
 		<tr>
-			<td id="constructioncalculatorlabel">
+			<td class="constructioncalculatorlabel">
 				Current XP:
 			</td>
-			<td id="constructioncalculatorinput">
+			<td class="constructioncalculatorinput">
 				<input class="input" id="xp" maxlength="11" name="xp" onkeypress="return isNumberKey2(event)" onkeyup="duplicateKey(); convertExpToLevel(xp); calculateXPDifference()" type="text">
 			</td>
 		</tr>
 		<tr>
-			<td id="constructioncalculatorlabel">
+			<td class="constructioncalculatorlabel">
 				Level Goal:
 			</td>
-			<td id="constructioncalculatorinput">
+			<td class="constructioncalculatorinput">
 				<input id="goal" maxlength="3" name="goal" onkeypress="return isNumberKey(event)" onkeyup="convertLevelToExpGoal(level); calculateXPDifference()" type="text">
 			</td>
 		</tr>
 		<tr>
-			<td id="constructioncalculatorlabel">
+			<td class="constructioncalculatorlabel">
 				XP Goal:
 			</td>
-			<td id="constructioncalculatorinput">
+			<td class="constructioncalculatorinput">
 				<input class="input" id="xpgoal" maxlength="11" name="xpgoal" onkeypress="return isNumberKey2(event)" onkeyup="duplicateKey(); convertExpGoalToLevel(xpgoal); calculateXPDifference()" type="text">
 			</td>
 		</tr>
@@ -108,18 +109,18 @@
 <table>
 	<tbody>
 		<tr>
-			<td id="constructioncalculatorlabel">
+			<td class="constructioncalculatorlabel">
 				XP Difference:&nbsp;
 			</td>
-			<td id="constructioncalculatorinput">
+			<td class="constructioncalculatorinput">
 				<input id="xpdifference" name="result" readonly="readonly" type="text">
 			</td>
 		</tr>
 		<tr>
-			<td align="center" id="constructioncalculatorlabel">
-				Total Planks:&nbsp; &nbsp;&nbsp;
+			<td class="constructioncalculatorlabel">
+				Total Planks:
 			</td>
-			<td id="constructioncalculatorinput">
+			<td class="constructioncalculatorinput">
 				<textarea id="planksresult" readonly="readonly"></textarea>
 			</td>
 		</tr>
@@ -133,27 +134,27 @@
 <p>
 	<button id="clearbutton" onclick="clearData()" type="button">CLEAR</button>
 </p>
-
+          </div>
 <p>
 	&nbsp;
 </p>
-
-<h2>
-	Price Calculator
-</h2>
-
-<p>
-	<u>Note:</u>&nbsp;The total cost always rounds down to the nearest whole number.
-</p>
-
-<p>
-	&nbsp;
-</p>
+      <h2>
+          <img alt="Coins" src="https://i.imgur.com/DiGzWc2.gif"> <strong><u>Price Calculator</u></strong>
+      </h2>
+      <p>
+         &nbsp;
+      </p>
+      <p>
+         <u>Note:</u> The total cost always rounds down to the nearest whole number.
+      </p>
+      <p>
+         &nbsp;
+      </p>
 
 <table>
 	<tbody>
 		<tr>
-			<td id="pricecalculatorinput">
+			<td class="pricecalculatorinput">
 				<select id="planklist" onchange="fetchPrice()" size="1"><option disabled="disabled" selected="selected">-- Select a plank --</option><option>Plank</option><option>Oak plank</option><option>Teak plank</option><option>Mahogany plank</option> </select>
 			</td>
 		</tr>
@@ -167,13 +168,13 @@
 <table>
 	<tbody>
 		<tr>
-			<td id="pricecalculatorinput">
+			<td class="pricecalculatorinput">
 				<input class="input" disabled="disabled" id="planksprice" maxlength="6" name="planksprice" onkeypress="return isNumberKey2(event)" onkeyup="calculateCost()" placeholder="Plank Price" type="text">
 			</td>
-			<td id="pricecalculatorinput">
+			<td class="pricecalculatorinput">
 				&nbsp; <span style="font-size:16px;"><strong>X</strong></span>&nbsp;&nbsp;
 			</td>
-			<td id="pricecalculatorinput">
+			<td class="pricecalculatorinput">
 				<input class="input" id="planksquantity" maxlength="9" name="planksquantity" onkeypress="return isNumberKey2(event)" onkeyup="duplicateKey(); calculateCost()" placeholder="Total Planks" type="text">
 			</td>
 		</tr>
@@ -187,18 +188,18 @@
 <table>
 	<tbody>
 		<tr>
-			<td id="constructioncalculatorlabel">
+			<td class="constructioncalculatorlabel">
 				Total Cost:
 			</td>
-			<td id="constructioncalculatorinput">
+			<td class="constructioncalculatorinput">
 				<textarea id="totalcost" readonly="readonly"></textarea>
 			</td>
 		</tr>
 		<tr>
-			<td id="constructioncalculatorlabel">
+			<td class="constructioncalculatorlabel">
 				Price Per XP:
 			</td>
-			<td id="constructioncalculatorinput">
+			<td class="constructioncalculatorinput">
 				<textarea id="costxpresult" readonly="readonly"></textarea>
 			</td>
 		</tr>
@@ -212,7 +213,7 @@
 <p>
 	<button id="clearbutton2" onclick="clearData2()" type="button">CLEAR</button>
 </p>
-
+    </div>
 <p>
 	&nbsp;
 </p>
@@ -364,12 +365,12 @@ $("#planksquantity").keypress(function(e) {
 });
 
 function fetchdatatext() {
-    if (fetchdata.innerHTML == "Fetch Construction Level/XP") {
+    if (fetchdata.innerHTML == "Lookup") {
         fetchdata.disabled = true;
-        fetchdata.innerHTML = "Fetching...";
+        fetchdata.innerHTML = "Looking up...";
     } else {
         fetchdata.disabled = false;
-        fetchdata.innerHTML = "Fetch Construction Level/XP";
+        fetchdata.innerHTML = "Lookup";
     }
 }
 
@@ -756,18 +757,18 @@ function costPerXP() {
     transform: translateY(4px);
 }
 
-#pricecalculatorinput {
+.pricecalculatorinput {
     border-top: hidden;
     border-right: hidden;
     border-bottom: hidden;
     border-left: hidden;
 }
 
-#constructioncalculatorlabel {
+.constructioncalculatorlabel {
     width: 147px;
 }
 
-#constructioncalculatorinput {
+.constructioncalculatorinput {
     border-top: hidden;
     border-right: hidden;
     border-bottom: hidden;
@@ -795,10 +796,10 @@ function costPerXP() {
 }
 
 #planksprice {
-    width: 145px;
+    width: 138px;
 }
 #planksquantity {
-    width: 156px;
+    width: 170px;
 }
 
 #container {
@@ -806,9 +807,18 @@ function costPerXP() {
 }
 
 #planklist {
-    width: 173.71px;
+    width: 146px;
 }
 
-td {
-    border: 1px solid #787878;
+ .float-container {
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+ .float-child {
+    width: 50%;
+    float: left;
+}
+ .c-footer {
+    padding-top: 180px;
 }</style>
