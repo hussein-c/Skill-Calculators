@@ -38,14 +38,15 @@
 <p>
 	&nbsp;
 </p>
-
+      <div class="float-container">
+         <div class="float-child">
 <table>
 	<tbody>
 		<tr>
-			<td id="prayercalculatorlabel">
+			<td class="prayercalculatorlabel">
 				Display Name:
 			</td>
-			<td id="prayercalculatorinput">
+			<td class="prayercalculatorinput">
 				<input id="username" maxlength="12" name="username" onkeypress="return isValidKey(event)" type="text">
 			</td>
 		</tr>
@@ -57,7 +58,7 @@
 </p>
 
 <p>
-	<button id="fetchdata" type="button">Fetch Prayer Level/XP</button>
+	<button id="fetchdata" type="button">Lookup</button>
 </p>
 
 <p>
@@ -67,42 +68,42 @@
 <table>
 	<tbody>
 		<tr>
-			<td id="prayercalculatorlabel">
+			<td class="prayercalculatorlabel">
 				Current Level:
 			</td>
-			<td id="prayercalculatorinput">
+			<td class="prayercalculatorinput">
 				<input id="level" maxlength="3" name="level" onkeypress="return isNumberKey(event)" onkeyup="convertLevelToExp(level); calculateXPDifference()" type="text">
 			</td>
 		</tr>
 		<tr>
-			<td id="prayercalculatorlabel">
+			<td class="prayercalculatorlabel">
 				Current XP:
 			</td>
-			<td id="prayercalculatorinput">
+			<td class="prayercalculatorinput">
 				<input class="input" id="xp" maxlength="11" name="xp" onkeypress="return isNumberKey2(event)" onkeyup="duplicateKey(); convertExpToLevel(xp); calculateXPDifference()" type="text">
 			</td>
 		</tr>
 		<tr>
-			<td id="prayercalculatorlabel">
+			<td class="prayercalculatorlabel">
 				Level Goal:
 			</td>
-			<td id="prayercalculatorinput">
+			<td class="prayercalculatorinput">
 				<input id="goal" maxlength="3" name="goal" onkeypress="return isNumberKey(event)" onkeyup="convertLevelToExpGoal(level); calculateXPDifference()" type="text">
 			</td>
 		</tr>
 		<tr>
-			<td id="prayercalculatorlabel">
+			<td class="prayercalculatorlabel">
 				XP Goal:
 			</td>
-			<td id="prayercalculatorinput">
+			<td class="prayercalculatorinput">
 				<input class="input" id="xpgoal" maxlength="11" name="xpgoal" onkeypress="return isNumberKey2(event)" onkeyup="duplicateKey(); convertExpGoalToLevel(xpgoal); calculateXPDifference()" type="text">
 			</td>
 		</tr>
 		<tr>
-			<td id="prayercalculatorlabel">
+			<td class="prayercalculatorlabel">
 				Prayer Method:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
 			</td>
-			<td id="prayercalculatorinput">
+			<td class="prayercalculatorinput">
 				<select id="methods" onchange="calculateXPDifference()" size="1"><option value="gildedaltar">Gilded Altar (x3.5)</option><option value="ectofuntus">Ectofuntus (x4.0)</option><option value="chaosaltar">Chaos Altar (x7.0)</option> </select>
 			</td>
 		</tr>
@@ -116,15 +117,15 @@
 <table>
 	<tbody>
 		<tr>
-			<td id="prayercalculatorlabel">
+			<td class="prayercalculatorlabel">
 				XP Difference:
 			</td>
-			<td id="prayercalculatorinput">
+			<td class="prayercalculatorinput">
 				<input id="xpdifference" name="xpdifference" readonly="readonly" type="text">
 			</td>
 		</tr>
 		<tr>
-			<td align="center" id="prayercalculatorlabel">
+			<td class="prayercalculatorlabel">
 				<p>
 					Total Bones:
 				</p>
@@ -133,7 +134,7 @@
 					&nbsp;
 				</p>
 			</td>
-			<td id="prayercalculatorinput">
+			<td class="prayercalculatorinput">
 				<textarea id="bonesresult" readonly="readonly"></textarea>
 			</td>
 		</tr>
@@ -147,27 +148,26 @@
 <p>
 	<button id="clearbutton" onclick="clearData()" type="button">CLEAR</button>
 </p>
-
+          </div>
 <p>
 	&nbsp;
 </p>
-
-<h2>
-	Price Calculator
-</h2>
-
-<p>
-	<u>Note:</u> The total cost always rounds down to the nearest whole number.
-</p>
-
-<p>
-	&nbsp;
-</p>
-
+      <h2>
+          <img alt="Coins" src="https://i.imgur.com/DiGzWc2.gif"> <strong><u>Price Calculator</u></strong>
+      </h2>
+      <p>
+         &nbsp;
+      </p>
+      <p>
+         <u>Note:</u> The total cost always rounds down to the nearest whole number.
+      </p>
+      <p>
+         &nbsp;
+      </p>
 <table>
 	<tbody>
 		<tr>
-			<td id="pricecalculatorinput">
+			<td class="pricecalculatorinput">
 				<select id="boneslist" onchange="fetchPrice()" size="1"><option disabled="disabled" selected="selected">-- Select a bone --</option><option>Big bones</option><option>Babydragon bones</option><option>Wyrm bones</option><option>Dragon bones</option><option>Wyvern bones</option><option>Drake bones</option><option>Lava dragon bones</option><option>Hydra bones</option><option>Dagannoth bones</option><option>Superior dragon bones</option> </select>&nbsp;&nbsp;
 			</td>
 		</tr>
@@ -181,13 +181,13 @@
 <table>
 	<tbody>
 		<tr>
-			<td id="pricecalculatorinput">
+			<td class="pricecalculatorinput">
 				<input class="input" disabled="disabled" id="bonesprice" maxlength="6" name="bonesprice" onkeypress="return isNumberKey2(event)" onkeyup="calculateCost()" placeholder="Bones Price" type="text">
 			</td>
-			<td id="pricecalculatorinput">
+			<td class="pricecalculatorinput">
 				&nbsp; <span style="font-size:16px;"><strong>X</strong></span>&nbsp;&nbsp;
 			</td>
-			<td id="pricecalculatorinput">
+			<td class="pricecalculatorinput">
 				<input class="input" id="bonesquantity" maxlength="9" name="bonesquantity" onkeypress="return isNumberKey2(event)" onkeyup="duplicateKey(); calculateCost()" placeholder="Total Bones" type="text">
 			</td>
 		</tr>
@@ -201,18 +201,18 @@
 <table>
 	<tbody>
 		<tr>
-			<td id="prayercalculatorlabel">
+			<td class="prayercalculatorlabel">
 				Total Cost:
 			</td>
-			<td id="prayercalculatorinput">
+			<td class="prayercalculatorinput">
 				<textarea id="totalcost" readonly="readonly"></textarea>
 			</td>
 		</tr>
 		<tr>
-			<td id="prayercalculatorlabel">
+			<td class="prayercalculatorlabel">
 				Price Per XP:
 			</td>
-			<td id="prayercalculatorinput">
+			<td class="prayercalculatorinput">
 				<textarea id="costxpresult" readonly="readonly"></textarea>
 			</td>
 		</tr>
@@ -226,7 +226,7 @@
 <p>
 	<button id="clearbutton2" onclick="clearData2()" type="button">CLEAR</button>
 </p>
-
+          </div>
 <p>
 	&nbsp;
 </p>
@@ -379,12 +379,12 @@ $("#bonesquantity").keypress(function(e) {
 });
 
 function fetchdatatext() {
-    if (fetchdata.innerHTML == "Fetch Prayer Level/XP") {
+    if (fetchdata.innerHTML == "Lookup") {
         fetchdata.disabled = true;
-        fetchdata.innerHTML = "Fetching...";
+        fetchdata.innerHTML = "Looking up...";
     } else {
         fetchdata.disabled = false;
-        fetchdata.innerHTML = "Fetch Prayer Level/XP";
+        fetchdata.innerHTML = "Lookup";
     }
 }
 
@@ -781,18 +781,18 @@ function costPerXP() {
     transform: translateY(4px);
 }
 
-#pricecalculatorinput {
+.pricecalculatorinput {
     border-top: hidden;
     border-right: hidden;
     border-bottom: hidden;
     border-left: hidden;
 }
 
-#prayercalculatorlabel {
-    width: 147px;
+.prayercalculatorlabel {
+    width: 180px;
 }
 
-#prayercalculatorinput {
+.prayercalculatorinput {
     border-top: hidden;
     border-right: hidden;
     border-bottom: hidden;
@@ -800,26 +800,31 @@ function costPerXP() {
 }
 
 #bonesresult {
-    height: 193px;
-    width: 220px;
+    height: 206px;
+    width: 240px;
     resize: none;
 }
 
-#costxpresult {
-    height: 70px;
-    resize: none;
-    width: 200px;
+#username {
+    width: 238px;
 }
-
-#username, 
-#methods {
-    width: 220px;
+#methods,
+#avatar,
+#firstage,
+#potion,
+#aura {
+    width: 246px;
+}
+#level, #xp, #bxp, #goal, #xpgoal {
+     width: 240px;
+	 border: 1px black groove;
+     border-bottom: hidden;
 }
 #bonesprice {
-    width: 146px;
+    width: 172px;
 }
 #bonesquantity {
-    width: 174px;
+    width: 167px;
 }
 
 #totalcost {
@@ -828,14 +833,36 @@ function costPerXP() {
     resize: none;
 }
 
+#costxpresult {
+    width: 200px;
+    height: 70px;
+    resize: none;
+}
+
 #container {
     overflow: auto;
 }
 
 #boneslist {
-    width: 200px;
+    width: 180px;
 }
 
-td {
-    border: 1px solid #787878;
+ #xpdifference {
+     width: 240px;
+	 border: 1px black groove;
+     border-top: hidden;
+     border-bottom: hidden;
+     background-image: repeating-linear-gradient(135deg, #eee 10px, #eee 12px, transparent 12px, transparent 20px);
+}
+ .float-container {
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+ .float-child {
+    width: 50%;
+    float: left;
+}
+ .c-footer {
+    padding-top: 180px;
 }</style>
