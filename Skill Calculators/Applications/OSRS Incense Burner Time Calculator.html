@@ -51,7 +51,7 @@
 </p>
 
 <p>
-	<button id="fetchdata" type="button">Fetch Firemaking Level</button>
+	<button id="fetchdata" type="button">Lookup</button>
 </p>
 
 <p>
@@ -145,8 +145,8 @@ function calculateTime() {
         var minTimeinSecs = parseInt(minTicks * 0.6) % parseInt(seconds);
         var maxTimeinMins = parseInt(maxTicks * 0.6 / seconds);
         var maxTimeinSecs = parseInt(maxTicks * 0.6) % parseInt(seconds);
-        var minTime = minTimeinMins + " minutes " + minTimeinSecs + " seconds";
-        var maxTime = maxTimeinMins + " minutes " + maxTimeinSecs + " seconds";
+        var minTime = minTimeinMins + " mins " + minTimeinSecs + " secs";
+        var maxTime = maxTimeinMins + " mins " + maxTimeinSecs + " secs";
         if (isNaN(firemakingLevel)) {
             ticksfield.value = "";
             timefield.value = "";
@@ -170,12 +170,12 @@ function clearData() {
 }
 
 function fetchdatatext() {
-    if (fetchdata.innerHTML == "Fetch Firemaking Level") {
+    if (fetchdata.innerHTML == "Lookup") {
         fetchdata.disabled = true;
-        fetchdata.innerHTML = "Fetching...";
+        fetchdata.innerHTML = "Looking up...";
     } else {
         fetchdata.disabled = false;
-        fetchdata.innerHTML = "Fetch Firemaking Level";
+        fetchdata.innerHTML = "Lookup";
     }
 }
 
@@ -292,13 +292,13 @@ $("#fetchdata").click(function() {
 
 #time {
     height: 40px;
-    width: 310px;
+    width: 240px;
     resize: none;
 }
 
 #username,
 #level {
-    width: 310px;
+    width: 240px;
 }
 
 #planksprice {
@@ -310,7 +310,7 @@ $("#fetchdata").click(function() {
 
 #ticks {
     height: 40px;
-    width: 310px;
+    width: 240px;
     resize: none;
 }
 
