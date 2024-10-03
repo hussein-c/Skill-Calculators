@@ -4,20 +4,20 @@
       <title>RS3 Construction Calculator</title>
    </head>
    <body>
-      <h2 style="text-align: center;">
-         <img alt="Altar Community icon" src="https://i.imgur.com/xyOC2T2.png">
-      </h2>
+<h1 style="text-align: center;">
+    <strong><u>RS3 Construction Calculator</u></strong>
+</h1>
       <p>
          &nbsp;
       </p>
-      <h2>
-         <img alt="Construction skill icon" src="https://i.imgur.com/stmveyy.png"> <strong><u>RS3 Construction Calculator</u></strong>
-      </h2>
+<p>
+	<strong>Introduction</strong>
+</p>
       <p>
          &nbsp;
       </p>
       <p>
-         Here you can find out how many planks you need for a certain goal e.g. level 99, 200M XP. It has the ability of fetching your <img alt="" src="https://i.imgur.com/stmveyy.png"> Construction Level and XP from the RS3 Hiscores. Down below this calculator is a <img alt="" src="https://i.imgur.com/DiGzWc2.gif"> Price Calculator which calculates how much money <img alt="" src="https://i.imgur.com/DiGzWc2.gif"> you need for the planks. It has the ability to fetch the planks price from the RS3 Grand Exchange. Best of luck with your <img alt="" src="https://i.imgur.com/stmveyy.png"> Construction goals!
+         Here you can find out how many planks you need for a certain goal e.g. level 99, 200M XP. It has the ability of fetching your Construction Level and XP from the RS3 Hiscores. Down below this calculator is a Price Calculator which calculates how much money you need for the planks. It has the ability to fetch the planks price from the RS3 Grand Exchange. Best of luck with your Construction goals!
       </p>
       <p>
          &nbsp;
@@ -27,7 +27,7 @@
       </p>
       <ul>
          <li>
-            • The <img alt="Construction skill icon" src="https://i.imgur.com/stmveyy.png"> Construction Level requirement is 1 for planks, 15 for oak planks, 35 for teak planks and 40 for mahogany planks.
+            • The Construction Level requirement is 1 for planks, 15 for oak planks, 35 for teak planks and 40 for mahogany planks.
          </li>
          <li>
             • You can choose to do either Current Level or Current XP, and either Level Goal or XP Goal.
@@ -405,6 +405,18 @@ $("#fetchdata").click(function() {
 			url: "https://api.codetabs.com/v1/proxy/?quest=https://secure.runescape.com/m=hiscore/index_lite.ws?player=" + usernamefield.value.trim()
 		})
 		.done(function(data) {
+            if (usernamefield.value.trim() == "") {
+				alert("Please enter a Display Name.");
+				levelfield.value = "";
+				xpfield.value = "";
+				fetchdatatext();
+			}
+        	else if (data.includes("404 - Page not found")){
+            	alert("Their Construction Level/XP does not appear to be on the RS3 Highscores.");
+				levelfield.value = "";
+				xpfield.value = "";
+				fetchdatatext();
+        	}	
 			var levels = data.split("\n")[23].split(",")[1];
 			var xp = data.split("\n")[23].split(",")[2];
 			if (parseInt(levels) >= 1 && parseInt(xp) >= 0) {
@@ -416,45 +428,21 @@ $("#fetchdata").click(function() {
 				//button text change and xp difference calculation
 				fetchdatatext();
 				calculateXPDifference();
-			} else {
-				alert("Their Construction Level/XP does not appear to be on the RS3 Highscores.");
-				levelfield.value = "";
-				xpfield.value = "";
-				fetchdatatext();
 			}
 		})
 		.fail(function(jqXHR) {
-			if (usernamefield.value.trim() == "") {
-				alert("Please enter a Display Name.");
-				levelfield.value = "";
-				xpfield.value = "";
-				fetchdatatext();
-			} else if (jqXHR.status === 0) {
+		    if (jqXHR.status === 0) {
 				alert("Failed to connect. Verify that you have internet access and then try again.");
-				levelfield.value = "";
-				xpfield.value = "";
-				fetchdatatext();
 			} else if (jqXHR.status == 400) {
 				alert("The server was unable to process your request. Please try again.");
-				levelfield.value = "";
-				xpfield.value = "";
-				fetchdatatext();
-			} else if (jqXHR.status == 404) {
-				alert("Their Construction Level/XP does not appear to be on the RS3 Highscores.");
-				levelfield.value = "";
-				xpfield.value = "";
-				fetchdatatext();
 			} else if (jqXHR.status == 500) {
 				alert("Internal Server Error [500]. Please try again later.");
-				levelfield.value = "";
-				xpfield.value = "";
-				fetchdatatext();
 			} else {
 				alert("Uncaught Error. " + jqXHR.responseText);
-				levelfield.value = "";
+			}
+        		levelfield.value = "";
 				xpfield.value = "";
 				fetchdatatext();
-			}
 		});
 });
 
@@ -803,9 +791,19 @@ function fetchPrice() {
 			costPerXP();
 			calculateCost();
 		})
-		.fail(function() {
-			alert("The " + planks[planks_menu.selectedIndex - 1].name + " price is updating on the RS3 G.E.");
-			plankspricefield.value = "";
+    	.fail(function(jqXHR) {
+			if (jqXHR.status === 0) {
+				alert("Failed to connect. Verify that you have internet access and then try again.");
+			} else if (jqXHR.status == 400) {
+				alert("The server was unable to process your request. Please try again.");
+			} else if (jqXHR.status == 404) {
+				alert("The " + planks[planks_menu.selectedIndex - 1].name + " price is updating on the RS3 G.E.");
+			} else if (jqXHR.status == 500) {
+				alert("Internal Server Error [500]. Please try again later.");
+			} else {
+				alert("Uncaught Error. " + jqXHR.responseText);
+			}
+            plankspricefield.value = "";
 		});
 }
 
