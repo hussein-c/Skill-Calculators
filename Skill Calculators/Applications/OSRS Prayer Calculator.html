@@ -4,34 +4,40 @@
 <title>OSRS Prayer Calculator</title>
 </head>
 <body>
-<h2 style="text-align: center;">
-	OSRS Prayer Calculator
-</h2>
-
+<h1 style="text-align: center;">
+    <strong><u>OSRS Prayer Calculator</u></strong>
+</h1>
+      <p>
+         &nbsp;
+      </p>
 <p>
 	<strong>Introduction</strong>
 </p>
-
+      <p>
+         &nbsp;
+      </p>
 <p>
 	Welcome to my Prayer Calculator for OSRS. Here you can find out how many bones you need for a certain goal e.g. level 99, 200M XP. It has the ability of fetching your Prayer Level and XP from the OSRS Hiscores. Down below this calculator is a Price Calculator which calculates how much money you need for the bones. It has the ability to fetch the bones price from the OSRS Grand Exchange. Best of luck with your Prayer goals!
 </p>
-
+      <p>
+         &nbsp;
+      </p>
 <p>
 	<u>Notes:</u>
 </p>
 
 <ul>
 	<li>
-		You can choose to do either Current Level or Current XP, and either Level Goal or XP Goal.
+		• You can choose to do either Current Level or Current XP, and either Level Goal or XP Goal.
 	</li>
 	<li>
-		You save on average half the amount of bones when you're using the Chaos Altar.
+		• You save on average half the amount of bones when you're using the Chaos Altar.
 	</li>
 	<li>
-		The Gilded Altar alone gives 250% Bonus XP. Each incense burner provides an additional 50% Bonus XP. Overall, it's 350% Bonus XP.
+		• The Gilded Altar alone gives 250% Bonus XP. Each incense burner provides an additional 50% Bonus XP. Overall, it's 350% Bonus XP.
 	</li>
 	<li>
-		Level 127 is 200M XP for this calculator.
+		• Level 127 is 200M XP for this calculator.
 	</li>
 </ul>
 
@@ -394,6 +400,18 @@ $("#fetchdata").click(function() {
         url: "https://api.codetabs.com/v1/proxy/?quest=https://secure.runescape.com/m=hiscore_oldschool/index_lite.ws?player=" + usernamefield.value.trim()
     })
         .done(function(data) {
+            if (usernamefield.value.trim() == "") {
+				alert("Please enter a Display Name.");
+				levelfield.value = "";
+				xpfield.value = "";
+				fetchdatatext();
+			}
+        	else if (data.includes("404 - Page not found")){
+                alert("Their Prayer Level/XP does not appear to be on the OSRS Highscores.");
+                levelfield.value = "";
+                xpfield.value = "";
+                fetchdatatext();
+        	}
             var levels = data.split("\n")[6].split(",")[1];
             var xp = data.split("\n")[6].split(",")[2];
             if (parseInt(levels) >= 1 && parseInt(xp) >= 0) {
@@ -406,13 +424,21 @@ $("#fetchdata").click(function() {
                 fetchdatatext();
                 calculateXPDifference();
             }
-            else {
-                alert("Their Prayer Level/XP does not appear to be on the OSRS Highscores.");
-                levelfield.value = "";
-                xpfield.value = "";
-                fetchdatatext();
-            }
-      });
+      })
+    	.fail(function(jqXHR) {
+			if (jqXHR.status === 0) {
+				alert("Failed to connect. Verify that you have internet access and then try again.");
+			} else if (jqXHR.status == 400) {
+				alert("The server was unable to process your request. Please try again.");
+			} else if (jqXHR.status == 500) {
+				alert("Internal Server Error [500]. Please try again later.");
+			} else {
+				alert("Uncaught Error. " + jqXHR.responseText);
+			}
+        		levelfield.value = "";
+				xpfield.value = "";
+				fetchdatatext();
+		});
 });
 
 function calculateXPDifference() {
@@ -700,10 +726,20 @@ function fetchPrice() {
             costPerXP();
             calculateCost();
         })
-        .fail(function() {
-            alert("The " + bones[bones_menu.selectedIndex - 1].name + " price is updating on the OSRS G.E.");
-            bonespricefield.value = "";
-        });
+    	.fail(function(jqXHR) {
+			if (jqXHR.status === 0) {
+				alert("Failed to connect. Verify that you have internet access and then try again.");
+			} else if (jqXHR.status == 400) {
+				alert("The server was unable to process your request. Please try again.");
+			} else if (jqXHR.status == 404) {
+				alert("The " + bones[bones_menu.selectedIndex - 1].name + " price is updating on the OSRS G.E.");
+			} else if (jqXHR.status == 500) {
+				alert("Internal Server Error [500]. Please try again later.");
+			} else {
+				alert("Uncaught Error. " + jqXHR.responseText);
+			}
+        	bonespricefield.value = "";
+		});
 }
 
 function costPerXP() {
