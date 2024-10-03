@@ -4,28 +4,34 @@
 <title>OSRS Incense Burner Time Calculator</title>
 </head>
 <body>
-<h2 style="text-align:center">
-	OSRS Incense Burner Time Calculator
-</h2>
-
+<h1 style="text-align:center">
+    <strong><u>OSRS Incense Burner Time Calculator</u></strong>
+</h1>
+      <p>
+         &nbsp;
+      </p>
 <p>
 	<strong>Introduction</strong>
 </p>
-
+      <p>
+         &nbsp;
+      </p>
 <p>
 	Welcome to my Incense Burner Time Calculator for OSRS. Here you can find out how long your incense burners will stay lit based on your Firemaking level. It has the ability of fetching your Firemaking Level from the OSRS Hiscores.
 </p>
-
+      <p>
+         &nbsp;
+      </p>
 <p>
 	<u>Notes:</u>
 </p>
 
 <ul>
 	<li>
-		Lighting an incense burner requires Level 30 Firemaking.
+		• Lighting an incense burner requires Level 30 Firemaking.
 	</li>
 	<li>
-		Boosting your Firemaking Level has <strong>NO</strong> effect on the incense burner time length.
+		• Boosting your Firemaking Level has <strong>NO</strong> effect on the incense burner time length.
 	</li>
 </ul>
 
@@ -145,8 +151,14 @@ function calculateTime() {
         var minTimeinSecs = parseInt(minTicks * 0.6) % parseInt(seconds);
         var maxTimeinMins = parseInt(maxTicks * 0.6 / seconds);
         var maxTimeinSecs = parseInt(maxTicks * 0.6) % parseInt(seconds);
-        var minTime = minTimeinMins + " mins " + minTimeinSecs + " secs";
-        var maxTime = maxTimeinMins + " mins " + maxTimeinSecs + " secs";
+        if (level == 52) {
+        	var minTime = minTimeinMins + " mins " + minTimeinSecs + " secs";
+        	var maxTime = maxTimeinMins + " mins " + maxTimeinSecs + " sec";
+        }
+        else {
+            var minTime = minTimeinMins + " mins " + minTimeinSecs + " secs";
+        	var maxTime = maxTimeinMins + " mins " + maxTimeinSecs + " secs";
+        }
         if (isNaN(firemakingLevel)) {
             ticksfield.value = "";
             timefield.value = "";
@@ -187,6 +199,16 @@ $("#fetchdata").click(function() {
         url: "https://api.codetabs.com/v1/proxy/?quest=https://secure.runescape.com/m=hiscore_oldschool/index_lite.ws?player=" + usernamefield.value.trim()
     })
       .done(function(data) {
+        	if (usernamefield.value.trim() == "") {
+				alert("Please enter a Display Name.");
+				levelfield.value = "";
+				fetchdatatext();
+			}
+        	else if (data.includes("404 - Page not found")){
+                alert("Their Firemaking Level does not appear to be on the OSRS Highscores.");
+                levelfield.value = "";
+                fetchdatatext();
+        	}
             var levels = data.split("\n")[12].split(",")[1];
             if (parseInt(levels) >= 1) {
                 //level
@@ -194,38 +216,20 @@ $("#fetchdata").click(function() {
                 //button text change and time calculation
                 fetchdatatext();
                 calculateTime();
-            } else {
-                alert("Their Firemaking Level does not appear to be on the OSRS Highscores.");
-                levelfield.value = "";
-                fetchdatatext();
             }
       })
       .fail(function(jqXHR) {
-            if (usernamefield.value.trim() == "") {
-                alert("Please enter a Display Name.");
-                levelfield.value = "";
-                fetchdatatext();
-            } else if (jqXHR.status === 0) {
+            if (jqXHR.status === 0) {
                 alert("Failed to connect. Verify that you have internet access and then try again.");
-                levelfield.value = "";
-                fetchdatatext();
             } else if (jqXHR.status == 400) {
                 alert("The server was unable to process your request. Please try again.");
-                levelfield.value = "";
-                fetchdatatext();
-            } else if (jqXHR.status == 404) {
-                alert("Their Firemaking Level does not appear to be on the OSRS Highscores.");
-                levelfield.value = "";
-                fetchdatatext();
             } else if (jqXHR.status == 500) {
                 alert("Internal Server Error [500]. Please try again later.");
-                levelfield.value = "";
-                fetchdatatext();
             } else {
                 alert("Uncaught Error. " + jqXHR.responseText);
+            }
                 levelfield.value = "";
                 fetchdatatext();
-            }
       });
 });
 </script>
