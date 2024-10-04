@@ -38,7 +38,8 @@
 <p>
 	&nbsp;
 </p>
-
+      <div class="float-container">
+         <div class="float-child">
 <table>
 	<tbody>
 		<tr>
@@ -86,7 +87,7 @@
 				Ticks:
 			</td>
 			<td id="burnercalculatorinput">
-				<textarea id="ticks" readonly="readonly"></textarea>
+				<input id="ticks" name="ticks" readonly="readonly" type="text">
 			</td>
 		</tr>
 		<tr>
@@ -94,7 +95,7 @@
 				Time Length:
 			</td>
 			<td id="burnercalculatorinput">
-				<textarea id="time" readonly="readonly"></textarea>
+				<input id="time" name="time" readonly="readonly" type="text">
 			</td>
 		</tr>
 	</tbody>
@@ -107,7 +108,8 @@
 <p>
 	<button id="clearbutton" onclick="clearData()" type="button">CLEAR</button>
 </p>
-
+          </div>
+    </div>
 <p>
 	&nbsp;
 </p>
@@ -234,7 +236,7 @@ $("#fetchdata").click(function() {
 });
 </script>
 <style type="text/css">
-#fetchdata {
+ #fetchdata {
     display: inline-block;
     padding: 5px 10px;
     font-size: 14px;
@@ -248,18 +250,15 @@ $("#fetchdata").click(function() {
     border-radius: 15px;
     box-shadow: 0 5px #999;
 }
-
-#fetchdata:hover {
+ #fetchdata:hover {
     background-color: #4c4cff;
 }
-
-#fetchdata:active {
+ #fetchdata:active {
     background-color: #4c4cff;
     box-shadow: 0 5px #666;
     transform: translateY(4px);
 }
-
-#clearbutton {
+ #clearbutton {
     display: inline-block;
     padding: 5px 10px;
     font-size: 14px;
@@ -273,59 +272,56 @@ $("#fetchdata").click(function() {
     border-radius: 15px;
     box-shadow: 0 5px #999;
 }
-
-#clearbutton:hover {
+ #clearbutton:hover {
     background-color: #3e8e41;
 }
-
-#clearbutton:active {
+ #clearbutton:active {
     background-color: #3e8e41;
     box-shadow: 0 5px #666;
     transform: translateY(4px);
 }
-
-#burnercalculatorlabel {
+ #burnercalculatorlabel {
     width: 147px;
 }
-
-#burnercalculatorinput {
+ #burnercalculatorinput {
     border-top: hidden;
     border-right: hidden;
     border-bottom: hidden;
 }
-
-#time {
-    height: 40px;
-    width: 240px;
+ #time {
+    height: 20px;
+    width: 242px;
     resize: none;
 }
-
-#username,
-#level {
+ #username,
+ #level {
     width: 240px;
 }
-
-#planksprice {
-    width: 147px;
-}
-#planksquantity {
-    width: 152px;
-}
-
-#ticks {
-    height: 40px;
-    width: 240px;
+ #ticks {
+    height: 20px;
+    width: 242px;
     resize: none;
+} 
+ #ticks, #time {
+	 border: 1px black groove;
+     background-image: repeating-linear-gradient(135deg, #eee 10px, #eee 12px, transparent 12px, transparent 20px);
 }
-
-#container {
+ #container {
     overflow: auto;
 }
-
-#planklist {
-    width: 173.71px;
+ .float-container {
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
-
-td {
+ .float-child {
+    width: 50%;
+    float: left;
+}
+ .c-footer {
+    padding-top: 180px;
+}
+ td {
     border: 1px solid #787878;
-}</style>
+}
+</style>
