@@ -198,7 +198,7 @@
 				Total Cost:
 			</td>
 			<td class="constructioncalculatorinput">
-				<textarea id="totalcost" readonly="readonly"></textarea>
+				<input id="totalcost" name="totalcost" readonly="readonly" type="text">
 			</td>
 		</tr>
 		<tr>
@@ -206,7 +206,7 @@
 				Price Per XP:
 			</td>
 			<td class="constructioncalculatorinput">
-				<textarea id="costxpresult" readonly="readonly"></textarea>
+				<input id="costxpresult" name="costxpresult" readonly="readonly" type="text">
 			</td>
 		</tr>
 	</tbody>
@@ -708,7 +708,7 @@ function costPerXP() {
 }
 </script>
 <style type="text/css">
-#fetchdata {
+ #fetchdata {
     display: inline-block;
     padding: 5px 10px;
     font-size: 14px;
@@ -722,19 +722,16 @@ function costPerXP() {
     border-radius: 15px;
     box-shadow: 0 5px #999;
 }
-
-#fetchdata:hover {
+ #fetchdata:hover {
     background-color: #4c4cff;
 }
-
-#fetchdata:active {
+ #fetchdata:active {
     background-color: #4c4cff;
     box-shadow: 0 5px #666;
     transform: translateY(4px);
 }
-
-#clearbutton,
-#clearbutton2 {
+ #clearbutton,
+ #clearbutton2 {
     display: inline-block;
     padding: 5px 10px;
     font-size: 14px;
@@ -748,72 +745,65 @@ function costPerXP() {
     border-radius: 15px;
     box-shadow: 0 5px #999;
 }
-
-#clearbutton:hover,
-#clearbutton2:hover {
+ #clearbutton:hover,
+ #clearbutton2:hover {
     background-color: #3e8e41;
 }
-
-#clearbutton:active,
-#clearbutton2:active {
+ #clearbutton:active,
+ #clearbutton2:active {
     background-color: #3e8e41;
     box-shadow: 0 5px #666;
     transform: translateY(4px);
 }
-
-.pricecalculatorinput {
+ .pricecalculatorinput {
     border-top: hidden;
     border-right: hidden;
     border-bottom: hidden;
     border-left: hidden;
 }
-
-.constructioncalculatorlabel {
+ .constructioncalculatorlabel {
     width: 147px;
 }
-
-.constructioncalculatorinput {
+ .constructioncalculatorinput {
     border-top: hidden;
     border-right: hidden;
     border-bottom: hidden;
 }
-
-#planksresult {
-    height: 90px;
-    width: 210px;
+ #planksresult {
+    height: 60px;
+    resize: none;
+} 
+ #planksresult, #xpdifference {
+    width: 212px;
+}
+ #costxpresult, #totalcost {
+    height: 20px;
+    width: 150px;
     resize: none;
 }
-
-#costxpresult, #totalcost {
-    height: 40px;
-    width: 200px;
-    resize: none;
-}
-
-#username,
-#level,
-#xp,
-#goal,
-#xpgoal,
-#xpdifference {
+ #username,
+ #level,
+ #xp,
+ #goal,
+ #xpgoal {
     width: 210px;
+}   
+ #costxpresult, #planksprice, #totalcost, #planksresult, #xpdifference {
+	border: 1px black groove;
+    background-image: repeating-linear-gradient(135deg, #eee 10px, #eee 12px, transparent 12px, transparent 20px);
 }
-
-#planksprice {
-    width: 138px;
+ #planksprice {
+    width: 141px;
 }
-#planksquantity {
-    width: 170px;
+ #planksquantity {
+    width: 119px;
 }
-
-#container {
+ #container {
     overflow: auto;
 }
-
-#planklist {
+ #planklist {
     width: 146px;
 }
-
  .float-container {
     padding-bottom: 20px;
     padding-left: 20px;
@@ -825,4 +815,7 @@ function costPerXP() {
 }
  .c-footer {
     padding-top: 180px;
-}</style>
+}td {
+    border: 1px solid #787878;
+}
+</style>
