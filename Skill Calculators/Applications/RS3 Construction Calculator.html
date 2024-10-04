@@ -144,6 +144,9 @@
             </tr>
          </tbody>
       </table>
+             <p>
+	&nbsp;
+</p>
       <table>
          <tbody>
             <tr>
@@ -156,7 +159,7 @@
             </tr>
             <tr>
                <td class="constructioncalculatorlabel">
-                  Total Planks:&nbsp;&nbsp;&nbsp;
+                  Total Planks:
                </td>
                <td class="constructioncalculatorinput">
                   <textarea id="planksresult" readonly="readonly"></textarea>
@@ -225,7 +228,7 @@
                   Total Cost:
                </td>
                <td class="constructioncalculatorinput">
-                  <textarea id="totalcost" readonly="readonly"></textarea>
+                  <input id="totalcost" name="totalcost" readonly="readonly" type="text">
                </td>
             </tr>
             <tr>
@@ -233,7 +236,7 @@
                   Price Per XP:
                </td>
                <td class="constructioncalculatorinput">
-                  <textarea id="costxpresult" readonly="readonly"></textarea>
+                  <input id="costxpresult" name="costxpresult" readonly="readonly" type="text">
                </td>
             </tr>
          </tbody>
@@ -862,7 +865,6 @@ function costPerXP() {
      box-shadow: 0 5px #666;
      transform: translateY(4px);
 }
-
  .pricecalculatorinput {
      border-top: hidden;
      border-right: hidden;
@@ -874,7 +876,7 @@ function costPerXP() {
 }
  #planksresult{
      border: 1px black groove;
-     height: 90px;
+     height: 60px;
      width: 200px;
      resize: none;
      background-image: repeating-linear-gradient(135deg, #eee 10px, #eee 12px, transparent 12px, transparent 20px);
@@ -898,7 +900,7 @@ function costPerXP() {
  #totalcost, #costxpresult {
      display: block;
      border: 1px black groove;
-     height: 40px;
+     height: 20px;
      width: 200px;
      resize: none;
      background-image: repeating-linear-gradient(135deg, #eee 10px, #eee 12px, transparent 12px, transparent 20px);
@@ -940,5 +942,8 @@ function costPerXP() {
 }
  .c-footer {
     padding-top: 180px;
+}
+td {
+    border: 1px solid #787878;
 }
 </style>
