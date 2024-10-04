@@ -242,7 +242,7 @@
 				Total Cost:
 			</td>
 			<td class="prayercalculatorinput">
-				<textarea id="totalcost" readonly="readonly"></textarea>
+				<input id="totalcost" name="totalcost" readonly="readonly" type="text">
 			</td>
 		</tr>
 		<tr>
@@ -924,7 +924,7 @@ function costPerXP() {
 }
 </script>
 <style type="text/css">
-#fetchdata {
+ #fetchdata {
     display: inline-block;
     padding: 5px 10px;
     font-size: 14px;
@@ -938,19 +938,16 @@ function costPerXP() {
     border-radius: 15px;
     box-shadow: 0 5px #999;
 }
-
-#fetchdata:hover {
+ #fetchdata:hover {
     background-color: #4c4cff;
 }
-
-#fetchdata:active {
+ #fetchdata:active {
     background-color: #4c4cff;
     box-shadow: 0 5px #666;
     transform: translateY(4px);
 }
-
-#clearbutton,
-#clearbutton2 {
+ #clearbutton,
+ #clearbutton2 {
     display: inline-block;
     padding: 5px 10px;
     font-size: 14px;
@@ -964,91 +961,80 @@ function costPerXP() {
     border-radius: 15px;
     box-shadow: 0 5px #999;
 }
-
-#clearbutton:hover,
-#clearbutton2:hover {
+ #clearbutton:hover,
+ #clearbutton2:hover {
     background-color: #3e8e41;
 }
-
-#clearbutton:active,
-#clearbutton2:active {
+ #clearbutton:active,
+ #clearbutton2:active {
     background-color: #3e8e41;
     box-shadow: 0 5px #666;
     transform: translateY(4px);
 }
-
-.pricecalculatorinput {
+ .pricecalculatorinput {
     border-top: hidden;
     border-right: hidden;
     border-bottom: hidden;
     border-left: hidden;
 }
-
-.prayercalculatorlabel {
+ .prayercalculatorlabel {
     width: 180px;
 }
-
-.prayercalculatorinput {
+ .prayercalculatorinput {
     border-top: hidden;
     border-right: hidden;
     border-bottom: hidden;
 
 }
-
-#bonesresult {
-    height: 206px;
+ #bonesresult {
+    height: 180px;
     width: 240px;
     resize: none;
 }
-
-#username {
+ #username {
     width: 238px;
 }
-#methods,
-#avatar,
-#firstage,
-#potion,
-#aura {
+ #methods,
+ #avatar,
+ #firstage,
+ #potion,
+ #aura {
     width: 246px;
 }
-#level, #xp, #bxp, #goal, #xpgoal {
+ #level, #xp, #bxp, #goal, #xpgoal {
      width: 240px;
 	 border: 1px black groove;
      border-bottom: hidden;
 }
-#bonesprice {
-    width: 172px;
+ #bonesprice {
+    width: 174px;
 }
-#bonesquantity {
+ #bonesquantity {
     width: 167px;
 }
 
-#totalcost {
-    height: 40px;
+ #totalcost {
+    height: 20px;
     width: 200px;
     resize: none;
 }
-
-#costxpresult {
+ #costxpresult {
     width: 200px;
     height: 70px;
     resize: none;
 }
-
-#container {
+ #container {
     overflow: auto;
 }
-
-#boneslist {
+ #boneslist {
     width: 180px;
 }
-
+ #costxpresult, #bonesprice, #totalcost, #bonesresult, #xpdifference {
+	 border: 1px black groove;
+     background-image: repeating-linear-gradient(135deg, #eee 10px, #eee 12px, transparent 12px, transparent 20px);
+}
  #xpdifference {
      width: 240px;
-	 border: 1px black groove;
-     border-top: hidden;
-     border-bottom: hidden;
-     background-image: repeating-linear-gradient(135deg, #eee 10px, #eee 12px, transparent 12px, transparent 20px);
 }
  .float-container {
     padding-bottom: 20px;
@@ -1061,4 +1047,8 @@ function costPerXP() {
 }
  .c-footer {
     padding-top: 180px;
-}</style>
+}
+ td {
+    border: 1px solid #787878;
+}
+</style>
